@@ -4,8 +4,9 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=9" />
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>Test</title>
-		<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
-		<script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
+	  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+	  <script src="node_modules/jquery/dist/jquery.min.js"></script>
+	  <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 		<style>
 		.active {
 			background-color: #DEB887 ;
@@ -22,6 +23,41 @@
 			<th>Example 2</th>
 		  </tr>
 		</table>
+		
+		
+		<!-- Button trigger modal -->
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="margin-left:50px;">
+		  Launch demo modal
+		</button>
+		
+
+
+		  <!-- The Modal -->
+		  <div class="modal fade" id="myModal">
+			<div class="modal-dialog modal-dialog-centered">
+			  <div class="modal-content">
+			  
+				<!-- Modal Header -->
+				<div class="modal-header">
+				  <h4 class="modal-title">Modal Heading</h4>
+				  <button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				
+				<!-- Modal body -->
+				<div class="modal-body">
+				  Modal body..
+				</div>
+				
+				<!-- Modal footer -->
+				<div class="modal-footer">
+				  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+				
+			  </div>
+			</div>
+		  </div>
+		
+		
 		<script>
 		$('#myTable').on('click', '.clickable-row', function(event) {
 		  $(this).addClass('active').siblings().removeClass('active');
