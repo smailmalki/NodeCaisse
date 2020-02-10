@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//FR" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=9" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>Test</title>
+		<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+		<script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
+		<style>
+		.active {
+			background-color: #a9f0ff !important;
+			font-weight: bold;
+		}
+		</style>
+	</head>
+	<body>
+		<table class="table table-bordered" id="myTable">
+		  <tr class="clickable-row">
+			<th>Example</th>
+		  </tr>
+		   <tr class="clickable-row">
+			<th>Example 2</th>
+		  </tr>
+		</table>
+		<script>
+		$('#myTable').on('click', '.clickable-row', function(event) {
+		  $(this).addClass('active').siblings().removeClass('active');
+		});
+		</script>
+	</body>
+</html>
