@@ -1,67 +1,114 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//FR" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html>
 	<head>
-		<meta http-equiv="X-UA-Compatible" content="IE=9" />
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>Test</title>
+		<script>window.$ = window.jQuery = require('jquery');</script>
 	  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
-	  <script src="node_modules/jquery/dist/jquery.min.js"></script>
 	  <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 		<style>
 		.active {
 			background-color: #DEB887 ;
-			font-weight: bold;
+			--font-weight: bold;
+		}
+		.vertical-center {
+		  min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+		  min-height: 100vh; /* These two lines are counted as one :-)       */
+
+		  display: flex;
+		  align-items: center;
 		}
 		</style>
+		
 	</head>
 	<body>
-		<table class="table table-bordered table-responsive-sm" style="width:300px;" id="myTable">
-		  <tr class="clickable-row">
-			<th>Example</th>
-		  </tr>
-		   <tr class="clickable-row">
-			<th>Example 2</th>
-		  </tr>
-		</table>
-		
-		
-		<!-- Button trigger modal -->
-		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="margin-left:50px;">
-		  Launch demo modal
-		</button>
-		
-
-
-		  <!-- The Modal -->
-		  <div class="modal fade" id="myModal">
-			<div class="modal-dialog modal-dialog-centered">
-			  <div class="modal-content">
-			  
-				<!-- Modal Header -->
-				<div class="modal-header">
-				  <h4 class="modal-title">Modal Heading</h4>
-				  <button type="button" class="close" data-dismiss="modal">&times;</button>
-				</div>
-				
-				<!-- Modal body -->
-				<div class="modal-body">
-				  Modal body..
-				</div>
-				
-				<!-- Modal footer -->
-				<div class="modal-footer">
-				  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				</div>
-				
-			  </div>
+		<div class="container vertical-center align-self-center">
+			<table class="table col-3 myTable" id="myTable2">
+			  <thead>
+				<tr>
+				  <th scope="col">Id</th>
+				  <th scope="col">Name</th>
+				  <th scope="col">Handle</th>
+				</tr>
+			  </thead>
+			  <tbody>
+				<tr class="clickable-row">
+				  <td>Mark</td>
+				  <td>Otto</td>
+				  <td>@mdo</td>
+				</tr class="clickable-row">
+				<tr class="clickable-row">
+				  <td>Jacob</td>
+				  <td>Thornton</td>
+				  <td>@fat</td>
+				</tr>
+				<tr class="clickable-row">
+				  <td>Larry</td>
+				  <td>the Bird</td>
+				  <td>@twitter</td>
+				</tr>
+			  </tbody>
+			</table>
+			
+			<table class="table col-6 myTable" style="margin-left:40px;">
+			  <thead>
+				<tr>
+				  <th scope="col">Id</th>
+				  <th scope="col">Name</th>
+				  <th scope="col">Handle</th>
+				  <th scope="col">col4</th>
+				  <th scope="col">col5</th>
+				  <th scope="col">col6</th>
+				</tr>
+			  </thead>
+			  <tbody>
+				<tr class="clickable-row">
+				  <td>Mark</td>
+				  <td>Otto</td>
+				  <td>@mdo</td>
+				</tr class="clickable-row">
+				<tr class="clickable-row">
+				  <td>Jacob</td>
+				  <td>Thornton</td>
+				  <td>@fat</td>
+				</tr>
+				<tr class="clickable-row">
+				  <td>Larry</td>
+				  <td>the Bird</td>
+				  <td>@twitter</td>
+				</tr>
+			  </tbody>
+			</table>
+			<div>
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="margin-left:50px;">
+			  Launch demo modal
+			</button>
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="margin-left:50px;margin-top:50px;">
+			  Launch demo modal
+			</button>
 			</div>
-		  </div>
+		</div>
+		<!-- Button trigger modal -->
 		
+		
+		<!-- The Modal -->
+		<div class="modal fade" id="myModal"></div>
 		
 		<script>
-		$('#myTable').on('click', '.clickable-row', function(event) {
-		  $(this).addClass('active').siblings().removeClass('active');
-		});
+			$( "#myModal" ).load( "modal.html" );
+			
+			const sqlite3 = require('sqlite3').verbose();
+			let db = new sqlite3.Database('db/sample.db');
+			 db.each("SELECT * FROM test", function(err, row) {
+				  console.log(row.name);
+			  });
+			$('#myTable').on('click', '.clickable-row', function(event) {
+			  $(this).addClass('active').siblings().removeClass('active');
+			});
+			
+			$('.myTable').on('click', '.clickable-row', function(event) {
+			  $(this).addClass('active').siblings().removeClass('active');
+			});
 		</script>
 	</body>
 </html>
