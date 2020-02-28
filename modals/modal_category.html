@@ -1,0 +1,57 @@
+
+<div class="modal-dialog modal-dialog-centered">
+	<div class="modal-content">
+		<!-- Modal Header -->
+		<div class="modal-header">
+		  <h4 class="modal-title">Nouvelle Catégorie</h4>
+		</div>
+
+		<!-- Modal body -->
+		<div class="modal-body">
+		      <div class="alert alert-danger" role="alert" id="alertmsg">
+				Veuillez saisir un nom
+			  </div>
+			  <div class="form-row">
+				<div class="form-group col-sm-6">
+                  <label for="nomP">Nom Catégorie</label>
+                  <input type="text" class="form-control" id="nomC" placeholder="Nom" >
+                </div>
+				<div class="form-group col-sm-6">
+                  <label for="myPassword">Imprimante</label>
+					<select class="form-control" id="printer">
+					  <option value="1">Imprimante Caisse</option>
+					  <option value="2">Imprimante Cuisine</option>
+					  <option value="3">Imprimante Cuisine2</option>
+					</select>
+				</div>
+				<!--/Blue select-->
+			  </div>
+			  <div class="form-row">
+               <div class="form-group col-sm-6">
+                  <label for="tvas">TVA sur place</label>
+                  <input type="text" class="form-control" id="tvas" placeholder="TVA sur place">
+               </div>
+               <div class="form-group col-sm-6">
+                  <label for="tvae">TVA à emporter</label>
+                  <input type="text" class="form-control" id="tvae" placeholder="TVA à emport.">
+               </div>
+            </div>
+
+		</div>
+
+		<!-- Modal footer -->
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-success" onclick="createcat()">Valider</button>
+		  <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+		</div>
+	</div>
+</div>
+<script>
+	//$(document).ready(function(){
+		//$( "#ModalCategory" ).load( "modals/modal_category.html" );
+		$("#alertmsg").hide();
+		$('#nomC').keyboard({ layout: 'azerty' });
+		$('#tvas').keyboard({ layout: 'num' });
+		$('#tvae').keyboard({ layout: 'num' });
+	//});
+</script>

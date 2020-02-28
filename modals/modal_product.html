@@ -1,0 +1,54 @@
+<div class="modal-dialog modal-dialog-centered">
+	<div class="modal-content">
+		<!-- Modal Header -->
+		<div class="modal-header">
+		  <h4 class="modal-title">Nouveau Produit</h4>
+		</div>
+
+		<!-- Modal body -->
+		<div class="modal-body">
+			<div class="alert alert-danger" role="alert" id="alertmsgP">
+				Veuillez saisir un nom
+			</div>
+			<div class="form-row">
+               <div class="form-group col-sm-6">
+                  <label for="nomP">Nom Produit</label>
+                  <input type="text" class="form-control" id="nomP" placeholder="Nom" >
+               </div>
+               <div class="form-group col-sm-6">
+                  <label for="myPassword">Catégorie</label>
+                  <select class="form-control" id="cat" ></select>
+               </div>
+            </div>
+			<div class="form-row">
+               <div class="form-group col-sm-6">
+                  <label for="price">Prix</label>
+                  <input type="text" class="form-control" id="price" placeholder="Prix">
+               </div>
+               <div class="form-group col-sm-6">
+                  <label for="color">Couleur</label>
+                  <input type="text" class="form-control" id="color" placeholder="Couleur">
+               </div>
+            </div>
+		</div>
+
+		<!-- Modal footer -->
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-success" onclick="createproduct()">Valider</button>
+		  <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+		</div>
+	</div>
+</div>
+<script>
+	//$(document).ready(function(){
+		//$( "#ModalCategory" ).load( "modals/modal_category.html" );
+		$("#alertmsgP").hide();
+		$('#nomP').keyboard({ layout: 'azerty' });
+		$('#tvas2').keyboard({ layout: 'num' });
+		$('#tvae2').keyboard({ layout: 'num' });
+		var db = new sqlite3.Database('db/caisse.db');
+		db.each("SELECT * FROM cat", function(err, row) {
+			$('#cat').append('<option value="'+row.idc+'">'+row.nom+'</option>');
+		});
+//});
+</script>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		
+		<script>window.$ = window.jQuery = require('jquery');</script>
+		<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+		<script src="node_modules/jquery/dist/jquery.js"></script>
+		<link rel='stylesheet' href='node_modules/bootstrap/dist/css/bootstrap.css' />
+		<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+		
+
+		<!-- keyboard widget css & script (required) -->
+		<script src="modules/Keyboard-master/docs/js/jquery-ui-custom.min.js"></script>
+		<link href="modules/Keyboard-master/css/keyboard-basic.css" rel="stylesheet">
+		<script src="modules/Keyboard-master/js/jquery.keyboard.js"></script>
+
+		<style>
+			.active {
+				background-color: #DEB887 ;
+				--font-weight: bold;
+			}
+			.vertical-center {
+			  min-height: 90%;  /* Fallback for browsers do NOT support vh unit */
+			  min-height: 90vh; /* These two lines are counted as one :-)       */
+			  
+			  display: flex;
+			  align-items: center;
+			}
+			.list-group2 {
+			margin:auto;
+			float:right;
+			padding-top:20px;
+			}
+			.list-group {
+			margin:auto;
+			float:left;
+			padding-top:20px;
+			}
+			.lead {
+			
+			margin:auto;
+			left:0;
+			right:0;
+			padding-top:10%;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="row">
+			<div class="col-auto mr-auto"><button type="button" class="btn btn-primary glyphicon glyphicon-home" style="margin-left:20px;"  onclick="window.location.href='index.html'">Accueil</button></div>
+			<div class="col-auto"><button type="button" class="btn btn-danger" style="margin-right:20px;"  onclick="window.close()">Fermer</button></div>
+		</div>
+		
+		  <div class="row" >
+			<div class="col-1" style="border:solid 1px black;">
+					<a href="#" class="list-group-item active"><i class="fa fa-key"></i> <span>App Settings</span></a>
+					<a href="#" class="list-group-item"><i class="fa fa-credit-card"></i> <span>Billing</span></a>
+					<a href="#" class="list-group-item"><i class="fa fa-question-circle"></i> <span>Support</span></a>
+					<a href="#" class="list-group-item"><i class="fa fa-arrow-circle-o-left"></i> <span>Sandbox Account</span></a>
+					<a href="#" class="list-group-item"><i class="fa fa-book"></i> <span>QuickStart Overview</span></a>
+					<a href="#" class="list-group-item"><i class="fa fa-compass"></i> <span>Documentation</span></a>
+			</div>
+			<div class="col-3" style="border:solid 1px black;padding-left:25px ;">
+				<div class="row" style="height:100%;" >
+					<table class="table col-4 myTableC" id="TbCategory">
+					  <thead>
+						<tr>
+						  <th scope="col">Id</th>
+						  <th scope="col">Nom Catégorie</th>
+						  <th scope="col">Actions</th>
+						</tr>
+					  </thead>
+					  <tbody>
+					  </tbody>
+					</table>
+					<div class="row align-items-end" >
+						<div class="col-4" style="font-size: 40px;font-weight: bolder;text-align: right;">
+							Total:
+						  </div>
+						  <div class="col-8" style="border:solid 3px black;font-size:50px;font-weight: bolder;">
+							999.00 €
+						  </div>
+					</div>
+				</div>
+				
+			</div>
+			<div class="col-7" style="border:solid 1px black;">
+				<div class="container vertical-center align-self-center" >					
+					<table class="table col-6 myTableP" style="margin-left:40px;" id="TbProduct">
+					  <thead>
+						<tr>
+						  <th scope="col">Id</th>
+						  <th scope="col">Nom Produit</th>
+						  <th scope="col">Prix</th>
+						  <th scope="col">Actions</th>
+						  <!--<th scope="col">col5</th>
+						  <th scope="col">col6</th>-->
+						</tr>
+					  </thead>
+					  <tbody></tbody>
+					</table>
+					<div>
+						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalCategory" onclick='$("#alertmsg").hide();' style="width:130px;margin-left:50px;">
+						  Créer Catégorie
+						</button>
+						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalProduct" style="width:130px;margin-left:50px;margin-top:50px;">
+						  Créer <br>Produit
+						</button>
+					</div>
+					<div class="modal fade" id="ModalCategory"></div>
+					<div class="modal fade" id="ModalProduct"></div>
+					<div class="modal fade" id="popmsg">
+						<div class="modal-dialog modal-dialog-centered">
+						  <div class="modal-content">
+							<div class="modal-header">
+							  <h5 class="modal-title" id="poptitle">Modal title</h5>
+							  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							  </button>
+							</div>
+							<div class="modal-body">
+							  <p id="poptext">Modal body text goes here.</p>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-success" onclick="" id="popvalid">Valider</button>
+								<button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+							</div>
+						  </div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-1" style="border:solid 1px black;">
+				<a href="#" class="list-group-item active"><i class="fa fa-key"></i> <span>App Settings</span></a>
+				<a href="#" class="list-group-item"><i class="fa fa-credit-card"></i> <span>Billing</span></a>
+				<a href="#" class="list-group-item"><i class="fa fa-question-circle"></i> <span>Support</span></a>
+				<a href="#" class="list-group-item"><i class="fa fa-arrow-circle-o-left"></i> <span>Sandbox Account</span></a>
+				<a href="#" class="list-group-item"><i class="fa fa-book"></i> <span>QuickStart Overview</span></a>
+				<a href="#" class="list-group-item"><i class="fa fa-compass"></i> <span>Documentation</span></a>
+
+			</div>
+		  </div>
+		
+		
+
+		<script src="js/products.js"></script> 	
+	</body>
+</html>

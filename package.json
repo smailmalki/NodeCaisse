@@ -1,0 +1,28 @@
+{
+  "name": "test-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "rebuild": "electron-rebuild -f -w sqlite3",
+    "start": "electron ."
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "bootstrap": "^4.4.1",
+    "electron": "^8.0.0",
+    "escpos": "^2.5.2",
+    "font-awesome": "^4.7.0",
+    "jquery": "^3.4.1",
+    "sqlite-async": "^1.0.12",
+    "sqlite3": "^4.1.1",
+    "usb": "^1.6.2",
+    "virtual-keyboard-plugin": "^1.2.1"
+  },
+  "devDependencies": {
+    "electron-builder": "^22.3.2",
+    "electron-rebuild": "^1.10.0"
+  }
+}
