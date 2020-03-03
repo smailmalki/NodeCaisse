@@ -21,28 +21,10 @@
 				--font-weight: bold;
 			}
 			.vertical-center {
-			  min-height: 90%;  /* Fallback for browsers do NOT support vh unit */
-			  min-height: 90vh; /* These two lines are counted as one :-)       */
-			  
-			  display: flex;
-			  align-items: center;
-			}
-			.list-group2 {
-			margin:auto;
-			float:right;
-			padding-top:20px;
-			}
-			.list-group {
-			margin:auto;
-			float:left;
-			padding-top:20px;
-			}
-			.lead {
-			
-			margin:auto;
-			left:0;
-			right:0;
-			padding-top:10%;
+				min-height: 90%;  /* Fallback for browsers do NOT support vh unit */
+				min-height: 90vh; /* These two lines are counted as one :-)       */
+
+				
 			}
 		</style>
 	</head>
@@ -52,98 +34,76 @@
 			<div class="col-auto"><button type="button" class="btn btn-danger" style="margin-right:20px;"  onclick="window.close()">Fermer</button></div>
 		</div>
 		
-		  <div class="row" >
-			<div class="col-1" style="border:solid 1px black;">
-					<a href="#" class="list-group-item active"><i class="fa fa-key"></i> <span>App Settings</span></a>
-					<a href="#" class="list-group-item"><i class="fa fa-credit-card"></i> <span>Billing</span></a>
-					<a href="#" class="list-group-item"><i class="fa fa-question-circle"></i> <span>Support</span></a>
-					<a href="#" class="list-group-item"><i class="fa fa-arrow-circle-o-left"></i> <span>Sandbox Account</span></a>
-					<a href="#" class="list-group-item"><i class="fa fa-book"></i> <span>QuickStart Overview</span></a>
-					<a href="#" class="list-group-item"><i class="fa fa-compass"></i> <span>Documentation</span></a>
+		<div class="row" >
+			<div class="col-1 p-0 pl-3 pt-3">
+				<div class="card col-12 p-0 m-0">
+					<img src="img/img_annul_client.png" class="card-img-top">
+					<div class="card-body p-0 m-0 text-center">Annuler client</div>
+				</div>
+				<div class="card col-12 p-0 m-0 mt-2">
+					<img src="img/livr.png" class="card-img-top">
+					<div class="card-body p-0 m-0 text-center">Livraison</div>
+				</div>
+				<div class="card col-12 p-0 m-0 mt-2">
+					<img src="img/tables.png" class="card-img-top">
+					<div class="card-body p-0 m-0 text-center">Tables</div>
+				</div>
+				<div class="card col-12 p-0 m-0 mt-2">
+					<img src="img/ticket_on.png" class="card-img-top">
+					<div class="card-body p-0 m-0 text-center">Ticket ON</div>
+				</div>
 			</div>
-			<div class="col-3" style="border:solid 1px black;padding-left:25px ;">
-				<div class="row" style="height:100%;" >
-					<table class="table col-4 myTableC" id="TbCategory">
+			<div class="col-3 p-0">
+				<div class="row pr-4 pl-4 h-75 mh-75">
+					<table class="table col-12 myTableC">
 					  <thead>
 						<tr>
-						  <th scope="col">Id</th>
-						  <th scope="col">Nom Catégorie</th>
-						  <th scope="col">Actions</th>
+						  <th class="col-8" scope="col">Produit</th>
+						  <th class="col-2" scope="col">Prix</th>
+						  <th class="col-2" scope="col"></th>
 						</tr>
 					  </thead>
-					  <tbody>
+					  <tbody class="overflow-auto" id="TbTicket">
 					  </tbody>
 					</table>
-					<div class="row align-items-end" >
-						<div class="col-4" style="font-size: 40px;font-weight: bolder;text-align: right;">
-							Total:
-						  </div>
-						  <div class="col-8" style="border:solid 3px black;font-size:50px;font-weight: bolder;">
-							999.00 €
-						  </div>
-					</div>
+				</div>
+				<div class="col-12 m-0 p-0 row align-items-end" style="border:solid 3px black;height:10%;">
+					<div class="col-4 m-0 p-0" style="font-size: 40px;font-weight: bolder;">
+						Total:
+						</div>
+						<div class="col-8 m-0 p-0" style="border:solid 3px black;font-size:50px;font-weight: bolder;text-align:right;">
+						0.00 €
+						</div>
 				</div>
 				
+				
 			</div>
-			<div class="col-7" style="border:solid 1px black;">
-				<div class="container vertical-center align-self-center" >					
-					<table class="table col-6 myTableP" style="margin-left:40px;" id="TbProduct">
-					  <thead>
-						<tr>
-						  <th scope="col">Id</th>
-						  <th scope="col">Nom Produit</th>
-						  <th scope="col">Prix</th>
-						  <th scope="col">Actions</th>
-						  <!--<th scope="col">col5</th>
-						  <th scope="col">col6</th>-->
-						</tr>
-					  </thead>
-					  <tbody></tbody>
-					</table>
-					<div>
-						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalCategory" onclick='$("#alertmsg").hide();' style="width:130px;margin-left:50px;">
-						  Créer Catégorie
-						</button>
-						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalProduct" style="width:130px;margin-left:50px;margin-top:50px;">
-						  Créer <br>Produit
-						</button>
-					</div>
-					<div class="modal fade" id="ModalCategory"></div>
-					<div class="modal fade" id="ModalProduct"></div>
-					<div class="modal fade" id="popmsg">
-						<div class="modal-dialog modal-dialog-centered">
-						  <div class="modal-content">
-							<div class="modal-header">
-							  <h5 class="modal-title" id="poptitle">Modal title</h5>
-							  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							  </button>
-							</div>
-							<div class="modal-body">
-							  <p id="poptext">Modal body text goes here.</p>
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-success" onclick="" id="popvalid">Valider</button>
-								<button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
-							</div>
-						  </div>
-						</div>
-					</div>
+			<div class="col-1 p-0 pr-2 vertical-center" id="catB" style="border-left: 1px solid lightgrey;border-right: 1px solid lightgrey;"></div>
+			<div class="col-6">
+				<div class="row p-0" id="prodB"></div>
+			</div>
+			<div class="col-1 p-0 pr-3 pt-3">
+				<div class="card col-12 p-0 m-0">
+					<img src="img/hashoff.png" class="card-img-top">
+					<div class="card-body p-0 m-0 text-center"><br></div>
+				</div>
+				<div class="card col-12 p-0 m-0 mt-2">
+					<img src="img/sur_place.png" class="card-img-top">
+					<div class="card-body p-0 m-0 text-center">Sur Place</div>
+				</div>
+				<div class="card col-12 p-0 m-0 mt-2">
+					<img src="img/cash.png" class="card-img-top">
+					<div class="card-body p-0 m-0 text-center">Ouvrir tiroir</div>
+				</div>
+				<div class="card col-12 p-0 m-0 mt-2">
+					<img src="img/payer.png" class="card-img-top">
+					<div class="card-body p-0 m-0 text-center">Paiement</div>
 				</div>
 			</div>
-			<div class="col-1" style="border:solid 1px black;">
-				<a href="#" class="list-group-item active"><i class="fa fa-key"></i> <span>App Settings</span></a>
-				<a href="#" class="list-group-item"><i class="fa fa-credit-card"></i> <span>Billing</span></a>
-				<a href="#" class="list-group-item"><i class="fa fa-question-circle"></i> <span>Support</span></a>
-				<a href="#" class="list-group-item"><i class="fa fa-arrow-circle-o-left"></i> <span>Sandbox Account</span></a>
-				<a href="#" class="list-group-item"><i class="fa fa-book"></i> <span>QuickStart Overview</span></a>
-				<a href="#" class="list-group-item"><i class="fa fa-compass"></i> <span>Documentation</span></a>
-
-			</div>
-		  </div>
-		
+		</div>
+		<div class="modal fade" id="popmsg"></div>
 		
 
-		<script src="js/products.js"></script> 	
+		<script src="js/caisse.js"></script> 	
 	</body>
 </html>
