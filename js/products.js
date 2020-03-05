@@ -17,6 +17,7 @@ db.each("SELECT * FROM cat", function(err, row) {
 });
 $( "#ModalCategory" ).load( "modals/modal_category.html" );
 $( "#ModalProduct" ).load( "modals/modal_product.html" );
+$( "#popmsg" ).load( "modals/popmsg.html" );
 
 function supprcat(idc) {
 	var db = new sqlite3.Database('db/caisse.db');

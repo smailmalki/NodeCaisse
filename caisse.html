@@ -33,10 +33,9 @@
 			<div class="col-auto mr-auto"><button type="button" class="btn btn-primary glyphicon glyphicon-home" style="margin-left:20px;"  onclick="window.location.href='index.html'">Accueil</button></div>
 			<div class="col-auto"><button type="button" class="btn btn-danger" style="margin-right:20px;"  onclick="window.close()">Fermer</button></div>
 		</div>
-		
 		<div class="row" >
 			<div class="col-1 p-0 pl-3 pt-3">
-				<div class="card col-12 p-0 m-0">
+			<div class="card col-12 p-0 m-0"  onclick="if ($('#tot').text()!='0.00'){poptitle.innerText='Supprimer encaissement';poptext.innerText='Voulez-vous annuler le client en cours?';popvalid.onclick=function() {annulerclient()};$('#popmsg').modal('show');}">
 					<img src="img/img_annul_client.png" class="card-img-top">
 					<div class="card-body p-0 m-0 text-center">Annuler client</div>
 				</div>
@@ -54,7 +53,7 @@
 				</div>
 			</div>
 			<div class="col-3 p-0">
-				<div class="row pr-4 pl-4 h-75 mh-75">
+				<div class="row pr-4 pl-4 h-100 mh-100">
 					<table class="table col-12 myTableC">
 					  <thead>
 						<tr>
@@ -63,19 +62,15 @@
 						  <th class="col-2" scope="col"></th>
 						</tr>
 					  </thead>
-					  <tbody class="overflow-auto" id="TbTicket">
+					  <tbody id="TbTicket">
 					  </tbody>
 					</table>
-				</div>
-				<div class="col-12 m-0 p-0 row align-items-end" style="border:solid 3px black;height:10%;">
-					<div class="col-4 m-0 p-0" style="font-size: 40px;font-weight: bolder;">
-						Total:
-						</div>
+					<div class="col-12 m-0 p-0 row align-self-end align-items-end" style="border:solid 3px black;">
+						<div class="col-4 m-0 p-0" style="font-size: 40px;font-weight: bolder;">Total:</div>
 						<div class="col-8 m-0 p-0" style="border:solid 3px black;font-size:50px;font-weight: bolder;text-align:right;">
-						0.00 €
-						</div>
+						<span id="tot">0.00</span>€</div>
+					</div>
 				</div>
-				
 				
 			</div>
 			<div class="col-1 p-0 pr-2 vertical-center" id="catB" style="border-left: 1px solid lightgrey;border-right: 1px solid lightgrey;"></div>
@@ -103,7 +98,6 @@
 		</div>
 		<div class="modal fade" id="popmsg"></div>
 		
-
 		<script src="js/caisse.js"></script> 	
 	</body>
 </html>
