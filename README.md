@@ -20,4 +20,4 @@ console.log(i.toFixed(2));
 
 
 
-![GitHub Logo](img/Screenshot_2020-03-06 Setting Up SQLite with Electron on Windows.png)
+![GitHub Logo](img/aljaibain.png)
