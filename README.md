@@ -21,4 +21,4 @@ console.log(i.toFixed(2));
 
 
 
- 	img/Screenshot_2020-03-06 Setting Up SQLite with Electron on Windows.png
+ 	(img/Screenshot_2020-03-06 Setting Up SQLite with Electron on Windows.png)
