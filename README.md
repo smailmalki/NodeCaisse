@@ -20,4 +20,4 @@ console.log(i.toFixed(2));
 
 
 
-![GitHub Logo](img/aljaibain.png)
+img/aljaibain.png
