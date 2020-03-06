@@ -20,4 +20,4 @@ console.log(i.toFixed(2));
 
 
 
-!(img/aljaibain.png)
+![](img/aljaibain.png)
