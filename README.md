@@ -1,5 +1,7 @@
 "# NodeCaisse" 
 
+https://github.com/electron/electron/blob/master/docs/tutorial/using-native-node-modules.md
+
 https://www.aljaiban.com/post/setting-up-electron-with-sqlite-on-windows
 
 npm install --global --production windows-build-tools
