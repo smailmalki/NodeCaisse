@@ -3,7 +3,7 @@
 	<div class="modal-content">
 		<!-- Modal Header -->
 		<div class="modal-header">
-		  <h4 class="modal-title">Nouvelle Catégorie</h4>
+		  <h4 class="modal-title" id="cattitle">Nouvelle Catégorie</h4>
 		</div>
 
 		<!-- Modal body -->
@@ -13,7 +13,7 @@
 			  </div>
 			  <div class="form-row">
 				<div class="form-group col-sm-6">
-                  <label for="nomP">Nom Catégorie</label>
+                  <label for="nomC">Nom Catégorie</label>
                   <input type="text" class="form-control" id="nomC" placeholder="Nom" >
                 </div>
 				<div class="form-group col-sm-6">
@@ -41,8 +41,8 @@
 
 		<!-- Modal footer -->
 		<div class="modal-footer">
-		  <button type="button" class="btn btn-success" onclick="createcat()">Valider</button>
-		  <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+		  <button type="button" class="btn btn-success" id="catvalid" onclick="createcat()">Valider</button>
+		  <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="$('#ModalCategory').load('modals/modal_category.html' );">Annuler</button>
 		</div>
 	</div>
 </div>

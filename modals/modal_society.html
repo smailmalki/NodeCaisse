@@ -1,0 +1,91 @@
+
+<div class="modal-dialog modal-dialog-centered">
+	<div class="modal-content">
+		<!-- Modal Header -->
+		<div class="modal-header">
+		  <h4 class="modal-title">Information société</h4>
+		</div>
+
+		<!-- Modal body -->
+		<div class="modal-body">
+		      <div class="alert alert-danger" role="alert" id="alertmsg">
+				Veuillez saisir un nom
+			  </div>
+			  <div class="form-row">
+				<div class="form-group col-sm-6">
+                  <!--<label for="nomP">Nom</label>-->
+                  <input type="text" class="form-control" id="nomS" placeholder="Nom" >
+                </div>
+				<!--/Blue select-->
+			  </div>
+			  <div class="form-row">
+				<div class="form-group col-sm-12">
+					<!--<label for="nomP">Adresse</label>-->
+					<input type="text" class="form-control" id="adr" placeholder="Adresse" >
+				</div>
+			  </div>
+			  <div class="form-row">
+               <div class="form-group col-sm-4">
+                  <!--<label for="tvas">Code Postal</label>-->
+                  <input type="text" class="form-control" id="cpl" placeholder="Code Postal">
+               </div>
+               <div class="form-group col-sm-8">
+                  <!--<label for="tvae">Ville</label>-->
+                  <input type="text" class="form-control" id="ville" placeholder="Ville">
+               </div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-sm-4">
+					<!--<label for="tvas">Code Postal</label>-->
+					<input type="text" class="form-control" id="telp" placeholder="Téléphone">
+				 </div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-sm-12">
+					<!--<label for="nomP">Adresse</label>-->
+					<input type="text" class="form-control" id="icu" placeholder="Info Comp.1" >
+				</div>
+			</div>
+			<div class="form-row">
+			<div class="form-group col-sm-12">
+				<!--<label for="nomP">Adresse</label>-->
+				<input type="text" class="form-control" id="icd" placeholder="Info Comp.2" >
+			</div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-sm-12">
+					<!--<label for="nomP">Adresse</label>-->
+					<input type="text" class="form-control" id="ict" placeholder="Info Comp.3" >
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-sm-4">
+                  <!--<label for="nomP">Nom</label>-->
+                  <input type="text" class="form-control" id="deviseS" placeholder="Devise" >
+                </div>
+				<!--/Blue select-->
+			</div>
+		</div>
+
+		<!-- Modal footer -->
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-success" onclick="majsoc()">Valider</button>
+		  <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+		</div>
+	</div>
+</div>
+<script>
+	//$(document).ready(function(){
+		//$( "#ModalCategory" ).load( "modals/modal_category.html" );
+		$("#alertmsg").hide();
+		$('#nomS').keyboard({ layout: 'azerty' });
+		$('#adr').keyboard({ layout: 'azerty' });
+		$('#ville').keyboard({ layout: 'azerty' });
+		$('#icu').keyboard({ layout: 'azerty' });
+		$('#icd').keyboard({ layout: 'azerty' });
+		$('#ict').keyboard({ layout: 'azerty' });
+		$('#cpl').keyboard({ layout: 'num' });
+		$('#telp').keyboard({ layout: 'azerty' });
+		$('#deviseS').keyboard({ layout: 'azerty' });
+	//});
+</script>

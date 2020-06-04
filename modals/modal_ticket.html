@@ -1,0 +1,76 @@
+<div class="modal-dialog modal-dialog-centered">
+	<div class="modal-content">
+		<!-- Modal Header -->
+		<div class="modal-header">
+		  <h4 class="modal-title">Ticket #<span id="ticktitle"></span></h4>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+
+		<!-- Modal body -->
+		<div class="modal-body">
+			<table class="table col-12 myTableC mb-0">
+				<thead>
+				  <tr class="d-flex">
+					<th class="col-9">Produit</th>
+					<th class="col-3 text-left">Prix</th>
+				  </tr>
+				</thead>
+			</table>
+			<div style="overflow-y: scroll; width:100%;height:40vh;max-height:40vh;padding-right:5px;" id='scrol'>
+				<table class="table col-12 myTableC">						
+					<tbody id="TbTicket"></tbody>
+				</table>
+			</div>
+		</div>
+		
+		<!-- Modal footer -->
+		<div class="modal-footer">
+		  <!--<button type="button" class="btn btn-primary mr-auto"  id="prdvalid" onclick="createproduct()">inclus menu</button>-->
+		
+		  <button type="button" class="btn btn-primary" id="prdvalid" onclick="createproduct()">Duplicata</button>
+		</div>
+	</div>
+</div>
+<script>
+	//$(document).ready(function(){
+		//$( "#ModalCategory" ).load( "modals/modal_category.html" );
+		$("#alertmsgP").hide();
+		$('#nomP').keyboard({ layout: 'azerty' });
+		$('#tvas2').keyboard({ layout: 'num' });
+		$('#tvae2').keyboard({ layout: 'num' });
+		var db = new sqlite3.Database('db/caisse.db');
+		var sqlite = require('sqlite-async');
+		sqlite.open('db/caisse.db').then(db2=>{
+			db2.each("SELECT * FROM cat order by idc asc", function(err, row) {
+				$('.cat').append('<option value="'+row.idc+'">'+row.nom+'</option>');
+			}).then(() => {
+				$('.cat').selectpicker();
+				$('.prd').selectpicker();
+			})
+		})
+		
+		$('#cat2').change( () => {
+			var array = $('.prdinmenu').map(function(){
+				return $(this).attr('idprd')
+			}).get();
+			//alert($('#TbCategory tr.active').find('td:first').html());
+			var inmenu2 ="";
+			if (array.toString()!="") {
+				inmenu2=" and idp not in ("+array.toString()+")";
+			}
+			//$('#prd2').html('');
+			$('.prd option').remove();
+			//$('.prd').selectpicker('refresh');
+			sqlite.open('db/caisse.db').then(db2=>{
+				db2.each("SELECT * FROM prd where idc="+cat2.value+inmenu2+" and idp<>"+$('#TbProduct tr.active').find('td:first').html(), function(err, row) {
+					$('#prd2').append('<option value="'+row.idp+'">'+row.nom+'</option>');
+					$('.prd').selectpicker('refresh');
+				})/*.then(() => {
+					
+				})*/
+			})
+		})		
+//});
+</script>

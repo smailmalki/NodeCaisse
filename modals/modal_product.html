@@ -2,7 +2,7 @@
 	<div class="modal-content">
 		<!-- Modal Header -->
 		<div class="modal-header">
-		  <h4 class="modal-title">Nouveau Produit</h4>
+		  <h4 class="modal-title" id="prdtitle">Nouveau Produit</h4>
 		</div>
 
 		<!-- Modal body -->
@@ -17,7 +17,7 @@
                </div>
                <div class="form-group col-sm-6">
                   <label for="myPassword">Catégorie</label>
-                  <select class="form-control" id="cat" ></select>
+                  <select class="form-control cat" id="cat" ></select>
                </div>
             </div>
 			<div class="form-row">
@@ -31,11 +31,42 @@
                </div>
             </div>
 		</div>
+		<div class="card">
+			<!--<h5 class="card-header">-->
+			<div class="card-header">
+				<a data-toggle="collapse" href="#collapse-example" aria-expanded="true" aria-controls="collapse-example" id="heading-example" class="d-block">
+					<i class="fa fa-chevron-down pull-right"></i>
+					Inclus dans le menu
+				</a>
+			</div>
+			<!--</h5>-->
+			<div id="collapse-example" class="collapse show" aria-labelledby="heading-example">
+				<div class="card-body">
+					<div class="row" id="inmenu" style="overflow-y: scroll;max-height:30vh;">
 
+					</div>
+					<div class="form-row">
+						<div class="form-group col-sm-5">
+							<select class="form-control cat" id="cat2" title="Catégorie">
+							</select>
+						</div>
+						<div class="form-group col-sm-5">
+							<select class="form-control prd" multiple title="Produit" id="prd2">
+							</select>
+						</div>
+						<div class="form-group col-sm-2">
+							<img src="img/plus.png"  style="width:40px;margin-top:-3px;cursor: pointer;" onclick="addinmenu()">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 		<!-- Modal footer -->
 		<div class="modal-footer">
-		  <button type="button" class="btn btn-success" onclick="createproduct()">Valider</button>
-		  <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+		  <!--<button type="button" class="btn btn-primary mr-auto"  id="prdvalid" onclick="createproduct()">inclus menu</button>-->
+		
+		  <button type="button" class="btn btn-success" id="prdvalid" onclick="createproduct()">Valider</button>
+		  <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="$('#ModalProduct').load('modals/modal_product.html');">Annuler</button>
 		</div>
 	</div>
 </div>
@@ -47,8 +78,36 @@
 		$('#tvas2').keyboard({ layout: 'num' });
 		$('#tvae2').keyboard({ layout: 'num' });
 		var db = new sqlite3.Database('db/caisse.db');
-		db.each("SELECT * FROM cat", function(err, row) {
-			$('#cat').append('<option value="'+row.idc+'">'+row.nom+'</option>');
-		});
+		var sqlite = require('sqlite-async');
+		sqlite.open('db/caisse.db').then(db2=>{
+			db2.each("SELECT * FROM cat order by idc asc", function(err, row) {
+				$('.cat').append('<option value="'+row.idc+'">'+row.nom+'</option>');
+			}).then(() => {
+				$('.cat').selectpicker();
+				$('.prd').selectpicker();
+			})
+		})
+		
+		$('#cat2').change( () => {
+			var array = $('.prdinmenu').map(function(){
+				return $(this).attr('idprd')
+			}).get();
+			//alert($('#TbCategory tr.active').find('td:first').html());
+			var inmenu2 ="";
+			if (array.toString()!="") {
+				inmenu2=" and idp not in ("+array.toString()+")";
+			}
+			//$('#prd2').html('');
+			$('.prd option').remove();
+			//$('.prd').selectpicker('refresh');
+			sqlite.open('db/caisse.db').then(db2=>{
+				db2.each("SELECT * FROM prd where idc="+cat2.value+inmenu2+" and idp<>"+$('#TbProduct tr.active').find('td:first').html(), function(err, row) {
+					$('#prd2').append('<option value="'+row.idp+'">'+row.nom+'</option>');
+					$('.prd').selectpicker('refresh');
+				})/*.then(() => {
+					
+				})*/
+			})
+		})		
 //});
 </script>

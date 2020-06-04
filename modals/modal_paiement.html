@@ -1,0 +1,110 @@
+
+<div class="modal-dialog modal-dialog-centered">
+	<div class="modal-content">
+		<!-- Modal Header -->
+		<div class="modal-header">
+		  <h4 class="modal-title">Type de paiement</h4>
+		</div>
+
+		<!-- Modal body -->
+		<div class="modal-body">
+
+		      <div class="alert alert-danger" role="alert" id="alertmsg">
+				Veuillez saisir un nom
+			  </div>
+			  
+			<div class="form-row">
+
+               <div class="form-group col-sm-1 mr-0">
+				<input type="checkbox" class="form-control checkbox-inline" id='cesp'>
+			   </div>
+               <div class="form-group col-sm-5">  
+                  <input type="text" class="form-control" id="esp" placeholder="Espèces">
+			   </div>
+			   <div class="form-group col-sm-5">
+					<input type="text" class="form-control" id="chq" placeholder="Chéques">
+				</div>
+			   <div class="form-group col-sm-1">
+				<input type="checkbox" class="form-control checkbox-inline" id='cchq'>
+			   </div>
+               
+			</div>
+			<div class="form-row">
+
+				<div class="form-group col-sm-1 mr-0">
+					<input type="checkbox" class="form-control checkbox-inline" id='ccb'>
+				</div>
+				<div class="form-group col-sm-5">
+				   <!--<label for="tvas">Code Postal</label>-->
+				   <input type="text" class="form-control" id="cb" placeholder="CB">
+				</div>
+				<div class="form-group col-sm-5">
+				   <!--<label for="tvae">Ville</label>-->
+				   <input type="text" class="form-control" id="av" placeholder="Avoir">
+				</div>
+				<div class="form-group col-sm-1 mr-0">
+					<input type="checkbox" class="form-control checkbox-inline" id='cav'>
+				</div>
+			</div>
+			
+		</div>
+
+		<!-- Modal footer -->
+		<div class="modal-footer">
+	<button type="button" class="btn btn-success" onclick="encais()">Valider</button>
+		  <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="cleanmodal()">Annuler</button>
+		</div>
+	</div>
+</div>
+<script>
+	//$(document).ready(function(){
+		//$( "#ModalCategory" ).load( "modals/modal_category.html" );
+		$("#alertmsg").hide();
+		$('#esp').keyboard({ layout: 'num' });
+		$('#chq').keyboard({ layout: 'num' });
+		$('#cb').keyboard({ layout: 'num' });
+		$('#av').keyboard({ layout: 'num' });
+		//$('#esp').change(function() {
+			//alert('ok');
+		//});
+		var onchangecheck = true;
+		$('input[type=text]').change( function(e) {
+			onchangecheck=false;
+			if ($(this).val()=="") {
+				$('#c'+$(this).attr('id')).prop('checked', false);
+			} else {
+				$('#c'+$(this).attr('id')).prop('checked', true);
+			}
+			onchangecheck=true;
+		})
+		$('input[type=checkbox]').change(function(e) {
+			var t = $(this).attr('id');
+			if (onchangecheck && $(this).prop("checked")) {
+				ValidateChecks(t)
+			} else {
+				$('#'+(t.substring(1,100))).val("");
+			}
+		})
+
+		function cleanmodal() {
+			$('input[type=checkbox]').each( function(e) {
+				$(this).prop('checked', false);
+			})
+			$('input[type=text]').each( function(e) {
+				$(this).val("");
+			})
+		}
+		function ValidateChecks(t) {
+			var s = 0;
+			$('input[type=checkbox]').each( function(e) {
+				if ($(this).attr('id')!=t) {
+					s+=+$('#'+($(this).attr('id').substring(1,100))).val();
+				}
+			})
+			if (s<parseFloat($('#tot').text())) {
+				$('#'+(t.substring(1,100))).val(parseFloat($('#tot').text())-s);
+			}
+		}
+
+	//});
+</script>
