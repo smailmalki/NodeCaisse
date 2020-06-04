@@ -4,7 +4,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "rebuild": "electron-rebuild -f -w sqlite3",
+    "rebuild": "electron-rebuild -f -w usb",
     "start": "electron ."
   },
   "author": "",
@@ -12,10 +12,16 @@
   "dependencies": {
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
+    "bootstrap-select": "^1.13.16",
     "electron": "^8.0.0",
-    "escpos": "^2.5.2",
+    "electron-window-manager": "^1.0.6",
+    "escpos": "^3.0.0-alpha.2",
+    "escpos-network": "^3.0.0-alpha.2",
+    "escpos-usb": "^3.0.0-alpha.2",
     "font-awesome": "^4.7.0",
     "jquery": "^3.4.1",
+    "popper.js": "^1.16.1",
+    "remote": "^0.2.6",
     "sqlite-async": "^1.0.12",
     "sqlite3": "^4.1.1",
     "usb": "^1.6.2",

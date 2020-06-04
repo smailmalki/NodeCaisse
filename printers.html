@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		
+		<script>window.$ = window.jQuery = require('jquery');</script>
+		<!--<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />-->
+		<script src="node_modules/jquery/dist/jquery.js"></script>
+		<link rel='stylesheet' href='node_modules/bootstrap/dist/css/bootstrap.css' />
+		<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+		
+
+		<!-- keyboard widget css & script (required) -->
+		<script src="modules/Keyboard-master/docs/js/jquery-ui-custom.min.js"></script>
+		<link href="modules/Keyboard-master/css/keyboard-basic.css" rel="stylesheet">
+		<script src="modules/Keyboard-master/js/jquery.keyboard.js"></script>
+
+		<style>
+
+			.vertical-center {
+			  min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+			  min-height: 100vh; /* These two lines are counted as one :-)       */
+
+			  display: flex;
+			  align-items: center;
+			}
+		</style>
+	</head>
+	<body>		
+		<button type="button" class="btn btn-primary" style="float:left;margin-left:20px;margin-top:10px;"  onclick="window.location.href='index.html'">Accueil</button>
+		<button type="button" class="btn btn-danger" style="float:right;margin-right:20px;margin-top:10px;"  onclick="poptitle.innerText='Quitter';poptext.innerText='Voulez-vous fermer le logiciel?';popvalid.onclick=function() {window.close()};$('#popmsg').modal('show');">Fermer</button>
+		
+
+		<div class="container vertical-center align-self-center">
+			<div class="row col-9">
+				<div class="row col-3 h1">Imprimantes:</div>
+				<div class="w-100 mb-3"></div>
+				<div class="row col-12 pb-2" style="border-bottom:1px solid lightgrey;"><div class="col-2">Caisse</div><div class="col-8" id="impcaisse">Non définie</div><button type="button" data-toggle="modal" data-target="#ModalPrinters" class="btn btn-primary" onclick="imptype.innerText='caisse';$('#imptype').attr('impid',1);">Modifier</button></div>
+				<div class="w-100 mb-3"></div>
+				<div class="row col-12 pb-2" style="border-bottom:1px solid lightgrey;"><div class="col-2">Cuisine</div><div class="col-8" id="impcuisine">Non définie</div><button type="button" data-toggle="modal" data-target="#ModalPrinters" class="btn btn-primary" onclick="imptype.innerText='cuisine';$('#imptype').attr('impid',2);">Modifier</button></div>
+				<div class="w-100 mb-3"></div>
+				<button type="button" class="btn btn-primary">Ajouter poste d'imprimante</button>
+			</div>
+			
+		</div>
+		<div class="modal fade" id="popmsg">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+				  <div class="modal-header">
+					<h5 class="modal-title" id="poptitle">Modal title</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					  <span aria-hidden="true">&times;</span>
+					</button>
+				  </div>
+				  <div class="modal-body">
+					<p id="poptext">Modal body text goes here.</p>
+				  </div>
+				  <div class="modal-footer">
+					  <button type="button" class="btn btn-success" onclick="" id="popvalid">Valider</button>
+					  <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+				  </div>
+				</div>
+			  </div>
+		</div>	
+		<div class="modal fade" id="ModalPrinters"></div>
+		<script src="js/printers.js"></script> 	
+	</body>
+</html>

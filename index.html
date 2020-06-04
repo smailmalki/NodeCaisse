@@ -5,30 +5,150 @@
     <title></title>
     <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
 	<script>window.$ = window.jQuery = require('jquery');</script>
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    <!-- <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" /> -->
 	<script src="node_modules/jquery/dist/jquery.js"></script>
 	<link rel='stylesheet' href='node_modules/bootstrap/dist/css/bootstrap.css' />
 	<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+	<style>
+		.but {
+			float:right;margin-right:20px;margin-top:10px;
+		}
+		@media only screen and (max-width: 850px) {
+			/* For mobile phones: */
+			.resp {
+				width: 300px;
+			}
+			.par {
+				margin-top:50px;
+			}
+		}
+	</style>
+	<script>
+		jQuery(document).ready(function($) {
+			var alterClass = function() {
+				var ww = document.body.clientWidth;
+				if (ww < 850) {
+				$('.par').removeClass('align-items-center');
+				$('.btn').removeClass('but');
+				}
+				if (ww > 850) {
+				$('.par').addClass('align-items-center');
+				$('.btn').addClass('but');
+				}
+			}
+			$(window).resize(function(){
+				alterClass();
+			});
+			//Fire it when the page first loads:
+			alterClass();
+		})
+	</script>
   </head>
   <body>
-	<button type="button" class="btn btn-danger" style="float:right;margin-right:20px;margin-top:10px;"  onclick="window.close()">Fermer</button>
-	<div style="position:fixed;top: 35%; left: 30%;">
-		<figure style="display: inline-block;" onclick="window.location.href='caisse.html'">
+	<button type="button" class="btn btn-danger but"  onclick="poptitle.innerText='Quitter';poptext.innerText='Voulez-vous fermer le logiciel?';popvalid.onclick=function() {app.quit();window.close()};$('#popmsg').modal('show');">Fermer</button>
+	<div class="par d-flex justify-content-center align-items-center" style="height:100vh;">
+		<div class="resp" style="height:250px;">
+		<figure style="display: inline-block;margin-left:20px;" onclick="window.location.href='caisse.html'">
 			<img src="img/caisse.png" style="width:100px;height:100px;"/>
-		    <figcaption style="font-weight:bold;text-align: center;">Caisse</figcaption>
+			<figcaption style="font-weight:bold;text-align: center;">Caisse</figcaption>
 		</figure>
 		<figure style="display: inline-block;margin-left:20px;" onclick="window.location.href='products.html'">
 			<img src="img/products.png" href="products.html" style="width:100px;height:100px;"/>
-		    <figcaption style="font-weight:bold;text-align: center;">Produits</figcaption>
+			<figcaption style="font-weight:bold;text-align: center;">Produits</figcaption>
 		</figure>
-		<figure style="display: inline-block;margin-left:20px;">
+		<figure style="display: inline-block;margin-left:20px;" onclick="window.location.href='stats.html'">
 			<img src="img/sales.png" style="width:100px;height:100px;"/>
-		    <figcaption style="font-weight:bold;text-align: center;">Recettes</figcaption>
+			<figcaption style="font-weight:bold;text-align: center;">Recettes</figcaption>
 		</figure>
-		<figure style="display: inline-block;margin-left:20px;">
+		<figure style="display: inline-block;margin-left:20px;" onclick="window.location.href='printers.html'">
 			<img src="img/printers.png" style="width:100px;height:100px;"/>
-		    <figcaption style="font-weight:bold;text-align: center;">Imprimantes</figcaption>
+			<figcaption style="font-weight:bold;text-align: center;">Imprimantes</figcaption>
 		</figure>
+		<figure style="display: inline-block;margin-left:20px;" onclick="window.location.href='society.html'">
+			<img src="img/society.png" style="width:100px;height:100px;"/>
+			<figcaption style="font-weight:bold;text-align: center;">Société</figcaption>
+		</figure>
+		<figure style="display: inline-block;margin-left:20px;" onclick="window.location.href='table.html'">
+			<img src="img/table.png" style="width:100px;height:100px;"/>
+			<figcaption style="font-weight:bold;text-align: center;">Tables</figcaption>
+		</figure>
+		</div>
 	</div>
+	<div class="modal fade" id="popmsg">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<h5 class="modal-title" id="poptitle">Modal title</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				  <span aria-hidden="true">&times;</span>
+				</button>
+			  </div>
+			  <div class="modal-body">
+				<p id="poptext">Modal body text goes here.</p>
+			  </div>
+			  <div class="modal-footer">
+				  <button type="button" class="btn btn-success" onclick="" id="popvalid">Valider</button>
+				  <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+			  </div>
+			</div>
+		  </div>
+	</div>
+	<script>
+		
+		const electron = require('electron').remote;
+		const app = electron.app;
+		/**const BrowserWindow = electron.BrowserWindow;
+
+		var electronScreen = electron.screen;
+		var displays = electronScreen.getAllDisplays();
+		var externalDisplay = null;
+		for (var i in displays) {
+			if (displays[i].bounds.x != 0 || displays[i].bounds.y != 0) {
+			externalDisplay = displays[i];
+			break;
+			}
+		}
+
+		if (externalDisplay) {
+			mainWindow = new BrowserWindow({
+			x: externalDisplay.bounds.x + 50,
+			y: externalDisplay.bounds.y + 50
+			});
+			mainWindow.setFullScreen(true)
+			mainWindow.setMenu(null)
+		}
+		*/
+		var path=window.location.href.replace("index.html","").replace("file:///","");
+		var sqlite3 = require('sqlite3').verbose();
+		var sqlite = require('sqlite-async');
+		//alert(window.location.href);
+		var db = new sqlite3.Database(path+'db/caisse.db');
+		db.run("CREATE TABLE IF NOT EXISTS clt (idt NUMBER);");
+		db.run("CREATE TABLE IF NOT EXISTS cat(idc NUMBER, nom VARCHAR,tvas NUMERIC, tvae NUMERIC, imp VARCHAR);");
+		db.run("CREATE TABLE IF NOT EXISTS prd (idp NUMBER, idc NUMBER, nom VARCHAR, prix NUMERIC, color VARCHAR);");
+		db.run("CREATE TABLE IF NOT EXISTS menu (idp NUMBER, idpi NUMBER);");
+		db.run("CREATE TABLE IF NOT EXISTS soc (nom VARCHAR, ad VARCHAR, cp VARCHAR, vl VARCHAR, tl VARCHAR, ic1 VARCHAR, ic2 VARCHAR, ic3 VARCHAR, dev VARCHAR, devise VARCHAR);");
+		db.run("CREATE TABLE IF NOT EXISTS tick_temp (idr NUMBER, dte VARCHAR, idp NUMBER, idc NUMBER, nom VARCHAR, prix NUMERIC,tvas NUMERIC,tvae NUMERIC,imp NUMERIC);");
+		db.run("CREATE TABLE IF NOT EXISTS tick_table (idt NUMBER, idr NUMBER, dte VARCHAR, idp NUMBER, idc NUMBER, nom VARCHAR, prix NUMERIC,tvas NUMERIC,tvae NUMERIC,imp NUMERIC);");
+		db.run("CREATE TABLE IF NOT EXISTS tick_att (ida NUMBER, idr NUMBER, dte VARCHAR, idp NUMBER, idc NUMBER, nom VARCHAR, prix NUMERIC,tvas NUMERIC,tvae NUMERIC,imp NUMERIC);");
+		db.run("CREATE TABLE IF NOT EXISTS tick (idt NUMBER, dte VARCHAR, idp NUMBER, idc NUMBER, nom VARCHAR, prix NUMERIC, tva NUMERIC);");
+		db.run("CREATE TABLE IF NOT EXISTS tot (idt NUMBER, idv NUMBER, dte VARCHAR, paimt VARCHAR, tot NUMERIC, tva NUMERIC, service VARCHAR, dtez VARCHAR);");
+		db.run("CREATE TABLE IF NOT EXISTS menu (idp NUMBER, idpi NUMBER);");
+		db.run("DELETE FROM tick_temp;");
+		db.run("CREATE TABLE IF NOT EXISTS appel (ida NUMBER, act VARCHAR);");
+		db.run("CREATE TABLE IF NOT EXISTS tickonoff (id NUMBER PRIMARY KEY, onoff VARCHAR);");
+		
+		db.get("Select * from tickonoff;", function(error, row2) {
+			if (row2 == undefined) {
+				db.run("insert into tickonoff values (1,'on');");
+				$('#txttickonoff').text("ON");
+				$('#imgtickonoff').attr('src','img/ticket_ON.png');
+			} else {
+				$('#txttickonoff').text(row2.onoff.toUpperCase());
+				$('#imgtickonoff').attr('src','img/ticket_'+row2.onoff+'.png');
+			}
+		});
+
+	</script>
   </body>
 </html>

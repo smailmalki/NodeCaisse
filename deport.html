@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		
+		<script>window.$ = window.jQuery = require('jquery');</script>
+		<!--<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval';" />-->
+		<script src="node_modules/jquery/dist/jquery.js"></script>
+		<link rel='stylesheet' href='node_modules/bootstrap/dist/css/bootstrap.css' />
+		<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+		
+
+		<!-- keyboard widget css & script (required) -->
+		<script src="modules/Keyboard-master/docs/js/jquery-ui-custom.min.js"></script>
+		<link href="modules/Keyboard-master/css/keyboard-basic.css" rel="stylesheet">
+		<script src="modules/Keyboard-master/js/jquery.keyboard.js"></script>
+
+		<style>
+			.active {
+				background-color: #DEB887 ;
+				--font-weight: bold;
+			}
+			.vertical-center {
+				min-height: 90%;  /* Fallback for browsers do NOT support vh unit */
+				min-height: 90vh; /* These two lines are counted as one :-)       */
+			}
+			* {
+				-webkit-touch-callout: none; /* iOS Safari */
+				-webkit-user-select: none; /* Safari */
+				-khtml-user-select: none; /* Konqueror HTML */
+				-moz-user-select: none; /* Old versions of Firefox */
+				-ms-user-select: none; /* Internet Explorer/Edge */
+				user-select: none; /* Non-prefixed version, currently supported by Chrome, Opera and Firefox */
+			}
+			
+
+			.modal-dialog-slideout {min-height: 100%; margin: 0 0 0 auto;background: #fff;}
+			.modal.fade .modal-dialog.modal-dialog-slideout {-webkit-transform: translate(100%,0)scale(1);transform: translate(100%,0)scale(1);}
+			.modal.fade.show .modal-dialog.modal-dialog-slideout {-webkit-transform: translate(0,0);transform: translate(0,0);display: flex;align-items: stretch;-webkit-box-align: stretch;height: 100%;}
+			.modal.fade.show .modal-dialog.modal-dialog-slideout .modal-body{overflow-y: auto;overflow-x: hidden;}
+			.modal-dialog-slideout .modal-content{border: 0;}
+			.modal-dialog-slideout .modal-header, .modal-dialog-slideout .modal-footer {height: 69px; display: block;} 
+			.modal-dialog-slideout .modal-header h5 {float:left;}
+		</style>
+	</head>
+	<body style="overflow: hidden;"> <!--  -->
+	
+		<div class="row" style="margin-top:30px;">
+	
+			<div class="col-5 pl-5">
+				<div class="row h-100 mh-100">
+					<table class="table col-12 myTableC m-0 p-0">
+						<thead>
+						  <tr class="d-flex m-0 p-0">
+							<th class="col-9">Produit</th>
+							<th class="col-3">Prix</th>
+						  </tr>
+						</thead>
+					</table>
+					<div style="overflow-y: scroll; width:100%;height:85vh;max-height:85vh;margin-top:-15px;" id='scrol'>
+						<table class="table col-12 myTableC m-0 p-0">						
+							<tbody id="TbTicket"></tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		  <div class="col-7 vertical-center" style="width:100%;height:95vh;max-height:95vh;">
+        <div class="row pr-2 pl-2 h-100 mh-100">
+          
+          <div class="col-12 m-0 p-0 row align-self-start align-items-start d-flex justify-content-center" >
+            <div class="col-11 m-0 p-0" style="border-bottom:solid 3px black;font-size:120px;font-weight: bolder;text-align:right;">
+              <span id="tot">0.00</span><span id="devise"></span>
+            </div>
+          </div>
+          <div class="p-0 col-12" id="prodB"></div>
+        </div>
+			</div>
+		</div>
+
+      <script>
+        var path=window.location.href.replace("deport.html","").replace("file:///","");
+        var sqlite3 = require('sqlite3').verbose();
+        var sqlite = require('sqlite-async');
+        var db = new sqlite3.Database(path+'db/caisse.db');
+        var dev="";
+
+        db.get("Select * from soc;", function(error, row2) {
+          if (row2 !== undefined) {
+            devise.innerText=row2.devise;
+            dev=row2.devise;
+          }
+        });
+
+
+        var ipcRenderer = require('electron').ipcRenderer;
+        ipcRenderer.on('tot', function (event,store) {
+          tot.innerText=store;
+        });
+        ipcRenderer.on('supprencaiss', function (event,store) {
+          fillTick()
+        });
+        ipcRenderer.on('encaissp', function (event,store) {
+          var px="";
+          if (store.px!=="") {
+            var px=parseFloat(store.px).toFixed(2)+' '+dev;
+          }
+          $('#TbTicket').append('<tr class="clickable-row d-flex" rw="'+store.rw+'"><td class="col-9">'+store.nm+'</td><td class="col-3">'+px+'</td></tr>');
+          $('#scrol').animate({ scrollTop: 999999 }, 50);
+        });
+        ipcRenderer.on('annulerclient', function (event,store) {
+          $('#TbTicket').html("");
+          tot.innerText=store;
+        });
+
+        function fillTick() {
+        $('#TbTicket').html("");
+        db.each("SELECT * FROM tick_temp", function(err, row) {
+          var px;
+          if (row.nom.substring(0,5)=="-----") {px="";} else {px=(parseFloat(row.prix).toFixed(2))+' '+dev;}
+          $('#TbTicket').append('<tr class="clickable-row d-flex" rw="'+row.idr+'"><td class="col-9">'+row.nom+'</td><td class="col-3">'+px+'</td></tr>');
+        });
+      }
+
+        
+      </script>			
+	</body>
+</html>
+
+
+
+
+
+

@@ -3,8 +3,12 @@
 	<head>
 		<meta charset="UTF-8">
 		
-		<script>window.$ = window.jQuery = require('jquery');</script>
-		<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+		<script>
+			const electron = require('electron').remote;
+			const app = electron.app;
+			window.$ = window.jQuery = require('jquery');
+		</script>
+		<!--<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval';" />-->
 		<script src="node_modules/jquery/dist/jquery.js"></script>
 		<link rel='stylesheet' href='node_modules/bootstrap/dist/css/bootstrap.css' />
 		<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -23,15 +27,30 @@
 			.vertical-center {
 				min-height: 90%;  /* Fallback for browsers do NOT support vh unit */
 				min-height: 90vh; /* These two lines are counted as one :-)       */
-
-				
 			}
+			* {
+				-webkit-touch-callout: none; /* iOS Safari */
+				-webkit-user-select: none; /* Safari */
+				-khtml-user-select: none; /* Konqueror HTML */
+				-moz-user-select: none; /* Old versions of Firefox */
+				-ms-user-select: none; /* Internet Explorer/Edge */
+				user-select: none; /* Non-prefixed version, currently supported by Chrome, Opera and Firefox */
+			}
+			
+
+			.modal-dialog-slideout {min-height: 100%; margin: 0 0 0 auto;background: #fff;}
+			.modal.fade .modal-dialog.modal-dialog-slideout {-webkit-transform: translate(100%,0)scale(1);transform: translate(100%,0)scale(1);}
+			.modal.fade.show .modal-dialog.modal-dialog-slideout {-webkit-transform: translate(0,0);transform: translate(0,0);display: flex;align-items: stretch;-webkit-box-align: stretch;height: 100%;}
+			.modal.fade.show .modal-dialog.modal-dialog-slideout .modal-body{overflow-y: auto;overflow-x: hidden;}
+			.modal-dialog-slideout .modal-content{border: 0;}
+			.modal-dialog-slideout .modal-header, .modal-dialog-slideout .modal-footer {height: 69px; display: block;} 
+			.modal-dialog-slideout .modal-header h5 {float:left;}
 		</style>
 	</head>
-	<body>
+	<body > <!-- style="overflow: hidden;" -->
 		<div class="row">
-			<div class="col-auto mr-auto"><button type="button" class="btn btn-primary glyphicon glyphicon-home" style="margin-left:20px;"  onclick="window.location.href='index.html'">Accueil</button></div>
-			<div class="col-auto"><button type="button" class="btn btn-danger" style="margin-right:20px;"  onclick="window.close()">Fermer</button></div>
+			<div class="col-auto mr-auto"><button type="button" class="btn btn-primary" style="margin-left:20px;"  onclick="window.location.href='index.html'">Accueil</button></div>
+			<div class="col-auto"><button type="button" class="btn btn-danger" style="margin-right:20px;"  onclick="poptitle.innerText='Quitter';poptext.innerText='Voulez-vous fermer le logiciel?';popvalid.onclick=function() {app.quit();window.close()};$('#popmsg').modal('show');">Fermer</button></div>
 		</div>
 		<div class="row" >
 			<div class="col-1 p-0 pl-3 pt-3">
@@ -47,57 +66,96 @@
 					<img src="img/tables.png" class="card-img-top">
 					<div class="card-body p-0 m-0 text-center">Tables</div>
 				</div>
-				<div class="card col-12 p-0 m-0 mt-2">
-					<img src="img/ticket_on.png" class="card-img-top">
-					<div class="card-body p-0 m-0 text-center">Ticket ON</div>
+				<div class="card col-12 p-0 m-0 mt-2" id='tickonoff'>
+					<img src="img/ticket_on.png" class="card-img-top" id='imgtickonoff'>
+					<div class="card-body p-0 m-0 text-center">Ticket <span id='txttickonoff'>ON</span></div>
 				</div>
 			</div>
 			<div class="col-3 p-0">
 				<div class="row pr-4 pl-4 h-100 mh-100">
-					<table class="table col-12 myTableC">
-					  <thead>
-						<tr>
-						  <th class="col-8" scope="col">Produit</th>
-						  <th class="col-2" scope="col">Prix</th>
-						  <th class="col-2" scope="col"></th>
-						</tr>
-					  </thead>
-					  <tbody id="TbTicket">
-					  </tbody>
+					<table class="table col-12 myTableC mb-0">
+						<thead>
+						  <tr class="d-flex">
+							<th class="col-7">Produit</th>
+							<th class="col-3">Prix</th>
+							<th class="col-2">-</th>
+						  </tr>
+						</thead>
 					</table>
+					<div style="overflow-y: scroll; width:100%;height:83%;max-height:77vh;" id='scrol'>
+						<table class="table col-12 myTableC">						
+							<tbody id="TbTicket"></tbody>
+						</table>
+					</div>
 					<div class="col-12 m-0 p-0 row align-self-end align-items-end" style="border:solid 3px black;">
-						<div class="col-4 m-0 p-0" style="font-size: 40px;font-weight: bolder;">Total:</div>
-						<div class="col-8 m-0 p-0" style="border:solid 3px black;font-size:50px;font-weight: bolder;text-align:right;">
-						<span id="tot">0.00</span>€</div>
+						<div class="col-12 m-0 p-0 pr-4" style="border:solid 3px black;font-size:50px;font-weight: bolder;text-align:right;">
+							<span id="tot">0.00</span><span id="devise"></span>
+						</div>
 					</div>
 				</div>
-				
 			</div>
-			<div class="col-1 p-0 pr-2 vertical-center" id="catB" style="border-left: 1px solid lightgrey;border-right: 1px solid lightgrey;"></div>
-			<div class="col-6">
-				<div class="row p-0" id="prodB"></div>
+			<div class="col-1 p-0 pr-2 vertical-center" id="catB" style="border-left: 1px solid lightgrey;border-right: 1px solid lightgrey;overflow-y: scroll; width:100%;height:93vh;max-height:93vh;">
+			
+			</div>
+			<div class="col-6" style="overflow-y: scroll; width:100%;height:93vh;max-height:93vh;">
+				<div class="row p-0 col-12" id="prodB" ></div>
 			</div>
 			<div class="col-1 p-0 pr-3 pt-3">
-				<div class="card col-12 p-0 m-0">
-					<img src="img/hashoff.png" class="card-img-top">
-					<div class="card-body p-0 m-0 text-center"><br></div>
+				<div class="w-100 p-0 m-0 text-center" style="visibility: hidden;color:blue;cursor:pointer;font-weight: bolder;" id="resethash">reset</div>
+				<div class="card col-12 p-0 m-0" id='hash' bol="OFF">
+					<img src="img/hashoff.png" id='img_hash' class="card-img-top">
+					<div style="position:absolute;left:40%;top:20%;font-size:xx-large;font-weight: bolder;visibility: hidden;" id="hash_num">1</div>
+					<div class="card-body p-0 m-0 text-center"># Appel</div>
 				</div>
-				<div class="card col-12 p-0 m-0 mt-2">
-					<img src="img/sur_place.png" class="card-img-top">
-					<div class="card-body p-0 m-0 text-center">Sur Place</div>
+				<div class="card col-12 p-0 m-0 mt-2" id='spemp'>
+					<img src="img/sur_place.png" class="card-img-top" id="imgspemp">
+					<div class="card-body p-0 m-0 text-center" id='txtspemp'>Sur Place</div>
 				</div>
-				<div class="card col-12 p-0 m-0 mt-2">
+				<div class="card col-12 p-0 m-0 mt-2" id='otir'>
 					<img src="img/cash.png" class="card-img-top">
 					<div class="card-body p-0 m-0 text-center">Ouvrir tiroir</div>
 				</div>
-				<div class="card col-12 p-0 m-0 mt-2">
+				<div class="card col-12 p-0 m-0 mt-2" id="paie">
 					<img src="img/payer.png" class="card-img-top">
 					<div class="card-body p-0 m-0 text-center">Paiement</div>
 				</div>
 			</div>
 		</div>
 		<div class="modal fade" id="popmsg"></div>
-		
-		<script src="js/caisse.js"></script> 	
+		<div class="modal fade" id="ModalPaiement"></div>
+		<div class="modal fade" id="ModalMenu"></div>
+
+		<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-slideout modal-lg" role="document">
+			  <div class="modal-content">
+				<div class="modal-header">
+				  <h5 class="modal-title" id="exampleModalLabel">Modal sideout large</h5>
+				  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				  </button>
+				</div>
+				<div class="modal-body">
+				  ...
+				</div>
+				<div class="modal-footer">
+				  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				  <button type="button" class="btn btn-primary">Save changes</button>
+				</div>
+			  </div>
+			</div>
+		  </div>
+
+
+		<script>
+			/**$(function() {
+			$('#paie').on('click', function(e) {
+				e.preventDefault();
+				$('#scrol').animate({ scrollTop: 999999 }, 50);
+			});
+			});**/
+			
+		</script>
+		<script src="js/caisse.js"></script> 
+			
 	</body>
 </html>

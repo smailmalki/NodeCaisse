@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		
+		<script>window.$ = window.jQuery = require('jquery');</script>
+		<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+		<script src="node_modules/jquery/dist/jquery.js"></script>
+		<link rel='stylesheet' href='node_modules/bootstrap/dist/css/bootstrap.css' />
+		<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+		
+
+		<!-- keyboard widget css & script (required) -->
+		<script src="modules/Keyboard-master/docs/js/jquery-ui-custom.min.js"></script>
+		<link href="modules/Keyboard-master/css/keyboard-basic.css" rel="stylesheet">
+		<script src="modules/Keyboard-master/js/jquery.keyboard.js"></script>
+
+		<style>
+			.active {
+				background-color: #DEB887 ;
+				--font-weight: bold;
+			}
+			.vertical-center {
+			  min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+			  min-height: 100vh; /* These two lines are counted as one :-)       */
+
+			  display: flex;
+			  align-items: center;
+			}
+		</style>
+	</head>
+	<body>		
+		<button type="button" class="btn btn-primary glyphicon glyphicon-home" style="float:left;margin-left:20px;margin-top:10px;"  onclick="window.location.href='index.html'">Accueil</button>
+		<button type="button" class="btn btn-danger" style="float:right;margin-right:20px;margin-top:10px;"  onclick="poptitle.innerText='Quitter';poptext.innerText='Voulez-vous fermer le logiciel?';popvalid.onclick=function() {window.close()};$('#popmsg').modal('show');">Fermer</button>
+		
+		<div class="container vertical-center align-self-center" >
+			<div class="col-5" style="overflow-y: scroll; height:83%;max-height:77vh;padding:0px;">
+				<table class="table col-12 myTableC" style="table-layout: fixed;" id="TbZX">
+					<thead>
+						<tr>
+						<th style="width: 5%"></th>
+						<th style="width: 20%">ventes</th>
+						<th style="width: 20%">C.A.</th>
+						<th style="width: 45%">Date Cloture</th>
+						<th style="width: 10%"></th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-5" style="overflow-y: scroll; height:83%;max-height:77vh;margin-left:40px;" >
+				<table class="table col-12 myTableP" id="TbTick">
+				<thead>
+					<tr>
+					<th scope="col">Id Ticket</th>
+					<th scope="col">dte</th>
+					<th scope="col">Total HT</th>
+					<th scope="col">TVA</th>
+					<th scope="col">Service</th>
+					<th scope="col"></th>
+					<!--<th scope="col">col5</th>
+					<th scope="col">col6</th>-->
+					</tr>
+				</thead>
+				<tbody></tbody>
+				</table>
+			</div>
+			<div>
+				<!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalProduct" style="width:130px;margin-left:50px;margin-top:50px;">
+				  Créer <br>Produit
+				</button>-->
+			</div>
+		</div>
+		<div class="modal fade" id="popmsg"></div>
+		<div class="modal fade" id="ModalTicket"></div>
+		<script src="js/stats.js"></script> 	
+	</body>
+</html>
