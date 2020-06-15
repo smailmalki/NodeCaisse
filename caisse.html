@@ -37,7 +37,6 @@
 				user-select: none; /* Non-prefixed version, currently supported by Chrome, Opera and Firefox */
 			}
 			
-
 			.modal-dialog-slideout {min-height: 100%; margin: 0 0 0 auto;background: #fff;}
 			.modal.fade .modal-dialog.modal-dialog-slideout {-webkit-transform: translate(100%,0)scale(1);transform: translate(100%,0)scale(1);}
 			.modal.fade.show .modal-dialog.modal-dialog-slideout {-webkit-transform: translate(0,0);transform: translate(0,0);display: flex;align-items: stretch;-webkit-box-align: stretch;height: 100%;}
@@ -54,17 +53,22 @@
 		</div>
 		<div class="row" >
 			<div class="col-1 p-0 pl-3 pt-3">
-			<div class="card col-12 p-0 m-0"  onclick="if ($('#tot').text()!='0.00'){poptitle.innerText='Supprimer encaissement';poptext.innerText='Voulez-vous annuler le client en cours?';popvalid.onclick=function() {annulerclient()};$('#popmsg').modal('show');}">
+				<div class="w-100 p-0 m-0 text-center" style="visibility: hidden;color:blue;cursor:pointer;font-weight: bolder;">Reset</div>
+				<div class="card col-12 p-0 m-0"  onclick="if ($('#tot').text()!='0.00'){poptitle.innerText='Supprimer encaissement';poptext.innerText='Voulez-vous annuler le client en cours?';popvalid.onclick=function() {annulerclient()};$('#popmsg').modal('show');}">
 					<img src="img/img_annul_client.png" class="card-img-top">
 					<div class="card-body p-0 m-0 text-center">Annuler client</div>
 				</div>
 				<div class="card col-12 p-0 m-0 mt-2">
-					<img src="img/livr.png" class="card-img-top">
+					<img src="img/livraison.png" class="card-img-top">
 					<div class="card-body p-0 m-0 text-center">Livraison</div>
 				</div>
 				<div class="card col-12 p-0 m-0 mt-2">
 					<img src="img/tables.png" class="card-img-top">
 					<div class="card-body p-0 m-0 text-center">Tables</div>
+				</div>
+				<div class="card col-12 p-0 m-0 mt-2">
+					<img src="img/order.png" class="card-img-top">
+					<div class="card-body p-0 m-0 text-center">Commandes</div>
 				</div>
 				<div class="card col-12 p-0 m-0 mt-2" id='tickonoff'>
 					<img src="img/ticket_on.png" class="card-img-top" id='imgtickonoff'>
@@ -111,12 +115,16 @@
 					<img src="img/sur_place.png" class="card-img-top" id="imgspemp">
 					<div class="card-body p-0 m-0 text-center" id='txtspemp'>Sur Place</div>
 				</div>
+				<div class="card col-12 p-0 m-0 mt-2" id='addition'>
+					<img src="img/receipt.png" class="card-img-top">
+					<div class="card-body p-0 m-0 text-center">Addition</div>
+				</div>
 				<div class="card col-12 p-0 m-0 mt-2" id='otir'>
-					<img src="img/cash.png" class="card-img-top">
+					<img src="img/cashdraw.png" class="card-img-top">
 					<div class="card-body p-0 m-0 text-center">Ouvrir tiroir</div>
 				</div>
 				<div class="card col-12 p-0 m-0 mt-2" id="paie">
-					<img src="img/payer.png" class="card-img-top">
+					<img src="img/payment.png" class="card-img-top">
 					<div class="card-body p-0 m-0 text-center">Paiement</div>
 				</div>
 			</div>

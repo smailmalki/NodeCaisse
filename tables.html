@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title></title>
+		<script>window.$ = window.jQuery = require('jquery');</script>
+		<script src="node_modules/jquery/dist/jquery.js"></script>
+		<link rel='stylesheet' href='node_modules/bootstrap/dist/css/bootstrap.css' />
+		<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+	
+		<style>
+			.drag {
+				position: absolute;	top: 200px;	left: 100px; width: 100px; height: 100px; border: 1px solid black;
+			}
+			.resize {
+				position: absolute;	top: 83px; left: 83px; width: 30px; height: 30px;	border:1px solid grey;
+			}
+			.resize2 {
+				margin-top: 10px;margin-left: 10px;	width: 10px;height: 10px;background: #000;
+			}
+			.del {
+				position:absolute;left:85px;top:-15px;width:30px; height:30px;
+			}
+		</style>
+	</head>
+	<body class="body">	
+			
+		<div class="col-12 mt-4" style="position:absolute">
+			<button type="button" class="btn btn-primary ml-4" onclick="window.location.href='index.html'">Accueil</button>
+			<button type="button" class="btn btn-danger float-right mr-4"  onclick="poptitle.innerText='Quitter';poptext.innerText='Voulez-vous fermer le logiciel?';popvalid.onclick=function() {window.close()};$('#popmsg').modal('show');">Fermer</button>
+		</div>
+		<div class="row" style="height:100%; margin-left:20px;">
+			<div class="col-9 p-0" id="rest">
+				<ul class="nav nav-tabs" style="margin-top:100px;">
+					<!--
+					<li class="nav-item"><a href="#" class="nav-link active">Salle 1</a></li>
+					<li class="nav-item"><a href="#" class="nav-link">Salle 2</a></li>
+					<li class="nav-item"><a href="#" class="nav-link">Salle 3</a></li>
+					-->
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane active" id="sc1010">
+						<div class="drag">
+							<h3 style="width:100%;background:grey;text-align:center;">Table#1</h3>
+							<img class="del" src="img/delete2.png">
+							<div class="resize">
+								<div class="resize2"></div>
+							</div>
+						</div>
+					</div>
+					<div class="tab-pane" id="sc1020"></div>
+					<div class="tab-pane" id="sc1030"></div>
+				</div>
+			</div>
+			<div class="col-3 p-0" style="border:1px solid lightgray;margin-top:10vh;height:88vh;" id="pan">
+				<div class="row">
+				<button type="button" class="btn btn-info mt-4" style="float:left;margin-left:20px;margin-top:10px;" data-toggle="modal" data-target="#ModalTable">Ajouter table</button>
+				</div>
+				<div class="row">
+				<button type="button" class="btn btn-success mt-4" style="float:left;margin-left:20px;margin-top:10px;" data-toggle="modal" data-target="#ModalTables" onclick="test()">Ajouter salle</button>
+				</div>
+				<div class="row">
+				<button type="button" class="btn btn-danger mt-4" style="float:left;margin-left:20px;margin-top:10px;" data-toggle="modal" data-target="#ModalTable">Supprimer salle</button>
+				</div>
+			</div>
+		</div>
+		<div class="row d-flex justify-content-center w-100 fixed-bottom" style="height:100px;">
+			<div class="alert alert-success" style="height:50px;" id="msgsave">
+				Modifications enregistrées
+			  </div>
+			<!--<button type="button" class="btn btn-secondary m-4" onclick="saveTables()">Enregistrer</button>-->
+		</div>
+
+		<div class="modal fade" id="popmsg">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+					<h5 class="modal-title" id="poptitle">Modal title</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					</div>
+					<div class="modal-body">
+					<p id="poptext">Modal body text goes here.</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-success" onclick="" id="popvalid">Valider</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="ModalTable">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<!-- Modal Header -->
+					<div class="modal-header">
+					  <h4 class="modal-title">Nouvelle table</h4>
+					</div>
+			
+					<!-- Modal body -->
+					<div class="modal-body">
+						  <div class="alert alert-danger" role="alert" id="alertmsg">
+							Veuillez saisir un nom
+						  </div>
+						  <div class="form-row">
+							<div class="form-group col-sm-6">
+							  <!--<label for="nomP">Nom</label>-->
+							  <input type="text" class="form-control" id="nomT" placeholder="Nom" >
+							</div>
+							<!--/Blue select-->
+						  </div>
+					</div>
+
+						  <!-- Modal footer -->
+					<div class="modal-footer">
+						<button type="button" class="btn btn-success" onclick="addtable()">Valider</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+					</div>
+					</div>
+				</div>
+
+		</div>
+
+		<script>
+			$("#alertmsg").hide();
+			$(".alert-success").hide();
+
+			target = null;
+
+			document.body.addEventListener('touchstart', handleTouchStart, false);
+			document.body.addEventListener('touchmove', handleTouchMove, false);
+			document.body.addEventListener('touchend', handleTouchEnd, false);
+			document.body.addEventListener('touchcancel', handleTouchCancel, false);
+
+			function handleTouchStart(e) {
+				if (e.touches.length == 1) {
+					var touch = e.touches[0];
+					target = touch.target;
+				}
+			}
+			function handleTouchMove(e) {
+				if (e.touches.length == 1) {
+					if(target.className ===  "drag") {
+						var c = target.childNodes;
+						moveDrag(e,target,target.children[2]);
+					} else if (target.className === "resize") {
+						var c = target.parentElement.childNodes;
+						resizeDrag(e,target.parentElement,target,target.parentElement.children[1]);
+					}
+				}
+			}
+			function handleTouchEnd(e) {
+				if (e.touches.length == 0) { // User just took last finger off screen
+					if (target.className=="drag"||target.className == "resize") {
+						saveTables()
+					}
+					target = null;
+					
+				}
+			}
+			function handleTouchCancel(e) {
+				if (target!==null) {
+						saveTables()
+					}
+				return;
+			}
+
+			function resizeDrag(e,drag,resize,del) {
+				var touch = e.touches[0];
+
+				resize.style.left = (touch.pageX - drag.offsetLeft - 15)+ "px";
+				resize.style.top = (touch.pageY - drag.offsetTop - 15) + "px";
+
+				del.style.left = (touch.pageX - drag.offsetLeft - 17)+ "px";
+				del.style.top = (touch.pageY - drag.offsetTop - 115) ;
+
+				drag.style.width = (touch.pageX - drag.offsetLeft+3)+ "px";
+				drag.style.height = (touch.pageY - drag.offsetTop+3)+ "px";
+			}
+			function moveDrag(e, drag,resize) {
+				var touch = e.touches[0];
+				if (!doElsCollide(drag,pan)) {
+					drag.style.left = (touch.pageX -drag.offsetWidth/2)+ "px";
+					drag.style.top = (touch.pageY - drag.offsetHeight/2) + "px";
+					resize.style.left=(touch.pageX +drag.offsetWidth/2 );
+					resize.style.top=(touch.pageY +drag.offsetHeight/2);
+				} else {
+					if ( (touch.pageX -drag.offsetWidth/2)<drag.offsetLeft) {
+						drag.style.left = (touch.pageX -drag.offsetWidth/2)+ "px";
+						resize.style.left=(touch.pageX +drag.offsetWidth/2 );
+					}
+					drag.style.top = (touch.pageY - drag.offsetHeight/2) + "px";
+					resize.style.top=(touch.pageY +drag.offsetHeight/2);
+				}
+			}
+
+
+			function doElsCollide(el1, el2) {
+				el1.offsetBottom = el1.offsetTop + el1.offsetHeight;
+				el1.offsetRight = el1.offsetLeft + el1.offsetWidth;
+				el2.offsetBottom = el2.offsetTop + el2.offsetHeight;
+				el2.offsetRight = el2.offsetLeft + el2.offsetWidth;
+				
+				return !((el1.offsetBottom < el2.offsetTop) ||
+						(el1.offsetTop > el2.offsetBottom) ||
+						(el1.offsetRight < el2.offsetLeft) ||
+						(el1.offsetLeft > el2.offsetRight))
+			};
+		</script>
+		<script>
+		
+		</script>
+		<script src="js/tables.js"></script>
+	</body>
+</html>
