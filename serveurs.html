@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		
+		<script>window.$ = window.jQuery = require('jquery');</script>
+		<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+		<script src="node_modules/jquery/dist/jquery.js"></script>	
+		<script src="node_modules/popper.js/dist/umd/popper.js"></script>
+		<link rel='stylesheet' href='node_modules/bootstrap/dist/css/bootstrap.css' />
+		<link rel='stylesheet' href='node_modules/bootstrap-select/dist/css/bootstrap-select.css' />
+		<link rel='stylesheet' href='node_modules/font-awesome/css/font-awesome.min.css' />
+		<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>		
+		<script src="node_modules/bootstrap-select/dist/js/bootstrap-select.min.js"></script>		
+		
+		<!-- keyboard widget css & script (required) -->
+		<script src="modules/Keyboard-master/docs/js/jquery-ui-custom.min.js"></script>
+		<link href="modules/Keyboard-master/css/keyboard-basic.css" rel="stylesheet">
+		<script src="modules/Keyboard-master/js/jquery.keyboard.js"></script>
+
+		<style>
+			.card-header .fa {
+			transition: .3s transform ease-in-out;
+			}
+			.card-header .collapsed .fa {
+			transform: rotate(90deg);
+			}
+			.active {
+				background-color: #DEB887 ;
+				--font-weight: bold;
+			}
+
+			.vertical-center {
+			  min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+			  min-height: 100vh; /* These two lines are counted as one :-)       */
+
+			  display: flex;
+			  align-items: center;
+			}
+
+			* {
+				-webkit-touch-callout: none; /* iOS Safari */
+				-webkit-user-select: none; /* Safari */
+				-khtml-user-select: none; /* Konqueror HTML */
+				-moz-user-select: none; /* Old versions of Firefox */
+				-ms-user-select: none; /* Internet Explorer/Edge */
+				user-select: none; /* Non-prefixed version, currently supported by Chrome, Opera and Firefox */
+			}
+
+			.table-fixed tbody {
+				height: 300px;
+				overflow-y: auto;
+				width: 100%;
+			}
+
+			.table-fixed thead,
+			.table-fixed tbody,
+			.table-fixed tr,
+			.table-fixed td,
+			.table-fixed th {
+				display: block;
+			}
+
+			.table-fixed tbody td,
+			.table-fixed tbody th,
+			.table-fixed thead > tr > th {
+				float: left;
+				position: relative;
+			}
+
+		</style>
+	</head>
+	<body>		
+		<button type="button" class="btn btn-primary glyphicon glyphicon-home" style="float:left;margin-left:20px;margin-top:10px;"  onclick="window.location.href='index.html'">Accueil</button>
+		<button type="button" class="btn btn-danger" style="float:right;margin-right:20px;margin-top:10px;"  onclick="poptitle.innerText='Quitter';poptext.innerText='Voulez-vous fermer le logiciel?';popvalid.onclick=function() {window.close()};$('#popmsg').modal('show');">Fermer</button>
+		
+
+		<div class="container py-5">
+			<div class="row vertical-center align-self-center">
+				<div class="col-lg-6 mx-auto bg-white rounded shadow">
+					<input class="form-control col-5" id="myInput" type="text" placeholder="Search..">
+					<!-- Fixed header table-->
+					<div class="table-responsive">
+						<table class="table table-fixed">
+							<thead>
+								<tr>
+									
+									<th class="col-10">Nom</th>
+									
+									<th class="col-2"></th>
+								</tr>
+							</thead>
+							<tbody id="myTable"></tbody>
+						</table>
+					</div><!-- End -->
+				</div>
+				<div>
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalServeurs" style="width:130px;margin-left:50px;">
+					  Nouveau Serveur
+					</button>
+				</div>
+			</div>
+		</div>
+		
+
+		<!--
+		<div class="vertical-center align-self-center" >
+			<div class="col-11 p-0">
+				<input class="form-control col-5" id="myInput" type="text" placeholder="Search..">
+				<table class="table" style="margin-bottom:-1px;">
+					<thead>
+						<tr class="d-flex">
+							<th class="col-2">Tél.</th>
+							<th class="col-2">Nom</th>
+							<th class="col-4">Adresse</th>
+							<th class="col-1">Comp1</th>
+							<th class="col-1">Comp2</th>
+							<th class="col-1">Comp3</th>
+							<th class="col-1"></th>
+						</tr>
+					</thead>
+				</table>
+				<div style="overflow-y: scroll; width:100%;height:100%;max-height:100vh;" id='scrol'>
+					<table class="table col-12 myTableC" id="TbClients">
+						<tbody id="myTable">
+							<tr><td class="col-2">06 01 02 03 04</td><td class="col-2">Mr Test</td><td class="col-4">1 Rue du Test</td><td class="col-1">Bat 9</td><td class="col-1"></td><td class="col-1"></td><td class="col-1"><a href="#" data-toggle="modal" data-target="#ModalProduct" onclick="prdtitle.innerText='Modifier client';nomP.value='Mr Test';prdvalid.onclick=function() { updateclient(06 01 02 03 04) }"><img src="img/pen.svg" width="20"></a><a href="#" class="ml-3" data-toggle="modal" data-target="#popmsg" onclick="poptitle.innerText='Supprimer client';poptext.innerText='Voulez-vous supprimer le client : Mr Test ?';popvalid.onclick=function() { supprclient('06 01 02 03 04') }"><img src="img/trash.png" width="20"></a></td></tr>
+							<tr><td class="col-2">06</td><td class="col-2">Test</td><td class="col-4"></td><td class="col-1"></td><td class="col-1"></td><td class="col-1"></td><td class="col-1"><a href="#" data-toggle="modal" data-target="#ModalProduct" onclick="prdtitle.innerText='Modifier client';nomP.value='Test';prdvalid.onclick=function() { updateclient(06) }"><img src="img/pen.svg" width="20"></a><a href="#" class="ml-3" data-toggle="modal" data-target="#popmsg" onclick="poptitle.innerText='Supprimer client';poptext.innerText='Voulez-vous supprimer le client : Test ?';popvalid.onclick=function() { supprclient('06') }"><img src="img/trash.png" width="20"></a></td></tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			
+			
+			<div>
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalCategory" onclick='$("#alertmsg").hide();' style="width:130px;margin-left:50px;">
+				  Nouveau Client
+				</button>
+			</div>
+		</div>
+		-->
+		
+		<div class="modal fade" id="ModalServeurs"></div>
+		<div class="modal fade" id="popmsg"></div>
+		<script src="js/serveurs.js"></script>
+		<script>
+			var path=window.location.href.replace("serveurs.html","").replace("file:///","");
+			var sqlite3 = require('sqlite3').verbose();
+			//console.log(path+'db/caisse.db')
+			var db = new sqlite3.Database(path+'db/caisse.db');
+			db.each("select * from serveur;", (error,row)=> {
+				$("#myTable").append('<tr><td class="col-10">'+row.nom+'</td><td class="col-2"><a href="#" data-toggle="modal" data-target="#ModalBarres" onclick="cltitle.innerText=\'Modifier serveur\';sv.value=\''+row.sv+'\';nomsv.value=\''+row.nom+'\';clvalid.onclick=function() { updateserveur() }"><img src="img/pen.svg" width=20></img></a><a href="#" class="ml-2" data-toggle="modal" data-target="#popmsg" onclick="poptitle.innerText=\'Supprimer serveur\';poptext.innerText=\'Voulez-vous supprimer le serveur : '+row.nom+' ?\';popvalid.onclick=function() { supprserveur(\''+row.sv+'\') }"><img src="img/trash.png" width=20></img></a></td></tr>')
+			})
+
+			$(document).ready(function(){
+				$("#myInput").on("keyup", function() {
+					var value = $(this).val().toLowerCase();
+					$("#myTable tr").filter(function() {
+						$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+					});
+				});
+			});
+		</script>
+	</body>
+</html>

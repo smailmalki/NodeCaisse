@@ -17,18 +17,20 @@
     "electron-window-manager": "^1.0.6",
     "escpos": "^3.0.0-alpha.2",
     "escpos-network": "^3.0.0-alpha.2",
+    "escpos-serialport": "^3.0.0-alpha.4",
     "escpos-usb": "^3.0.0-alpha.2",
     "font-awesome": "^4.7.0",
     "jquery": "^3.4.1",
+    "net": "^1.0.2",
     "popper.js": "^1.16.1",
     "remote": "^0.2.6",
     "sqlite-async": "^1.0.12",
     "sqlite3": "^4.1.1",
-    "usb": "^1.6.2",
+    "usb": "^1.6.3",
     "virtual-keyboard-plugin": "^1.2.1"
   },
   "devDependencies": {
     "electron-builder": "^22.3.2",
-    "electron-rebuild": "^1.10.0"
+    "electron-rebuild": "^1.11.0"
   }
 }

@@ -44,50 +44,119 @@
 			.modal-dialog-slideout .modal-content{border: 0;}
 			.modal-dialog-slideout .modal-header, .modal-dialog-slideout .modal-footer {height: 69px; display: block;} 
 			.modal-dialog-slideout .modal-header h5 {float:left;}
+
+			.modal.right .modal-dialog {
+				position: fixed;
+				margin: auto;
+				width: 800px;
+				height: 100%;
+				-webkit-transform: translate3d(0%, 0, 0);
+				-ms-transform: translate3d(0%, 0, 0);
+				-o-transform: translate3d(0%, 0, 0);
+				transform: translate3d(0%, 0, 0);
+			}
+
+			.modal.right .modal-content {
+				height: 100%;
+			}
+			
+			/*Right*/
+			.modal.right.fade .modal-dialog {
+				right: -15px;
+				-webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
+				-moz-transition: opacity 0.3s linear, right 0.3s ease-out;
+				-o-transition: opacity 0.3s linear, right 0.3s ease-out;
+				transition: opacity 0.3s linear, right 0.3s ease-out;
+			}
+			
+			.modal.right.fade.in .modal-dialog {
+				right: 0;
+			}
+
+			.modal-lg {
+				max-width: 67vw !important;
+			}
+			.drag {
+				position: absolute; border: 1px solid black;cursor:pointer;
+			}
+			
 		</style>
 	</head>
-	<body > <!-- style="overflow: hidden;" -->
-		<div class="row">
-			<div class="col-auto mr-auto"><button type="button" class="btn btn-primary" style="margin-left:20px;"  onclick="window.location.href='index.html'">Accueil</button></div>
-			<div class="col-auto"><button type="button" class="btn btn-danger" style="margin-right:20px;"  onclick="poptitle.innerText='Quitter';poptext.innerText='Voulez-vous fermer le logiciel?';popvalid.onclick=function() {app.quit();window.close()};$('#popmsg').modal('show');">Fermer</button></div>
+	<body style="overflow: hidden;"> <!-- style="overflow: hidden;" style="background-color: salmon;" style="visibility: hidden;"-->
+		<div class="row" style="margin:5px;">
+			
+			<div class="col-1 mr-auto"><button type="button" class="btn btn-primary" style="margin-left:20px;"  onclick="window.location.href='index.html'">Accueil</button></div>
+			
+			<div class="text-center col-10"  id="modetbl">
+				<h1 class="d-inline">Table <span id='tbname'>test</span></h1> 
+				<button type="button" class="btn btn-success d-inline h-100 ml-5" onclick="savetbl($('#modetbl').attr('idt'),tbname.innerText)">Valider</button>
+				<button type="button" class="btn btn-primary d-inline h-100 ml-5" onclick="printc(false).then(() => {alert('ok')})">Ticket cuisine</button>
+				<button type="button" class="btn btn-danger d-inline h-100 ml-5" onclick="$('#modetbl').hide();document.body.style.backgroundColor='';">Annuler</button>
+			</div>
+			<div class="text-center col-10"  id="modecmd">
+				<h1 class="d-inline">Commande <span id='cmdname'>test</span></h1> 
+				<button type="button" class="btn btn-success d-inline h-100 ml-5" onclick="savecmd($('#modecmd').attr('idt'),cmdname.innerText,'cmd')">Valider</button>
+				<button type="button" class="btn btn-primary d-inline h-100 ml-5" onclick="printc()">Ticket cuisine</button>
+				<button type="button" class="btn btn-danger d-inline h-100 ml-5" onclick="$('#modecmd').hide();document.body.style.backgroundColor='';">Annuler</button>
+			</div>
+			<div class="text-center col-10"  id="modelivr">
+				<h1 class="d-inline">Livraison <span id='livrname'>test</span></h1> 
+				<button type="button" class="btn btn-success d-inline h-100 ml-5" onclick="savecmd($('#modelivr').attr('idt'),livrname.innerText,'livr')">Valider</button>
+				<button type="button" class="btn btn-primary d-inline h-100 ml-5" onclick="printc()">Ticket cuisine</button>
+				<button type="button" class="btn btn-danger d-inline h-100 ml-5" onclick="$('#modelivr').hide();document.body.style.backgroundColor='';">Annuler</button>
+			</div>
+			<div class="text-center col-10"  id="modebar">
+				<h1 class="d-inline p-2" id="codeb" style="border:5px solid black;font-size:50px;font-weight: bolder;">Produit by Code Barre</h1> 
+				<button type="button" class="btn btn-danger d-inline h-100 ml-5" style="width:5vh" id="moinsbarre">-</button>
+				<h1 class="d-inline p-2 mw-30" id="cbtext"></h1>
+				<button type="button" class="btn btn-success d-inline w-2 h-100 ml-5" style="width:5vh" id="plusbarre">+</button>
+				<!-- ***** Image produit ***** <button type="button" class="btn btn-primary d-inline h-100 ml-5" onclick="printc()">Ticket cuisine</button> -->
+			</div>
+			<div class="col-1"><button type="button" class="btn btn-danger" style="margin-right:20px;" onclick="poptitle.innerText='Quitter';poptext.innerText='Voulez-vous fermer le logiciel?';popvalid.onclick=function() {app.quit();window.close()};$('#popmsg').modal('show');">Fermer</button></div>
+			
+			
 		</div>
 		<div class="row" >
 			<div class="col-1 p-0 pl-3 pt-3">
 				<div class="w-100 p-0 m-0 text-center" style="visibility: hidden;color:blue;cursor:pointer;font-weight: bolder;">Reset</div>
 				<div class="card col-12 p-0 m-0"  onclick="if ($('#tot').text()!='0.00'){poptitle.innerText='Supprimer encaissement';poptext.innerText='Voulez-vous annuler le client en cours?';popvalid.onclick=function() {annulerclient()};$('#popmsg').modal('show');}">
-					<img src="img/img_annul_client.png" class="card-img-top">
+					<img src="img/img_annul_client.png" class="card-img-top" style="max-height:80px;">
 					<div class="card-body p-0 m-0 text-center">Annuler client</div>
 				</div>
-				<div class="card col-12 p-0 m-0 mt-2">
-					<img src="img/livraison.png" class="card-img-top">
+				<div class="card col-12 p-0 m-0 mt-2" id='spemp'>
+					<img src="img/sur_place.png" class="card-img-top" id="imgspemp" style="max-height:80px;">
+					<div class="card-body p-0 m-0 text-center" id='txtspemp'>Sur Place</div>
+				</div>
+				<div class="card col-12 p-0 m-0 mt-2" data-toggle="modal" data-target="#Modallivr">
+					<img src="img/livraison.png" class="card-img-top" style="max-height:80px;">
 					<div class="card-body p-0 m-0 text-center">Livraison</div>
 				</div>
-				<div class="card col-12 p-0 m-0 mt-2">
-					<img src="img/tables.png" class="card-img-top">
+				<div class="card col-12 p-0 m-0 mt-2" data-toggle="modal" data-target="#ModalTables">
+					<img src="img/tables.png" class="card-img-top" style="max-height:80px;">
 					<div class="card-body p-0 m-0 text-center">Tables</div>
 				</div>
-				<div class="card col-12 p-0 m-0 mt-2">
-					<img src="img/order.png" class="card-img-top">
+				<div class="card col-12 p-0 m-0 mt-2" data-toggle="modal" data-target="#Modalcmd" onclick='$("#commandcards > div").remove();'>
+					<img src="img/order.png" class="card-img-top" style="max-height:80px;">
 					<div class="card-body p-0 m-0 text-center">Commandes</div>
 				</div>
 				<div class="card col-12 p-0 m-0 mt-2" id='tickonoff'>
-					<img src="img/ticket_on.png" class="card-img-top" id='imgtickonoff'>
+					<img src="img/ticket_on.png" class="card-img-top" id='imgtickonoff' style="max-height:80px;">
 					<div class="card-body p-0 m-0 text-center">Ticket <span id='txttickonoff'>ON</span></div>
 				</div>
 			</div>
 			<div class="col-3 p-0">
 				<div class="row pr-4 pl-4 h-100 mh-100">
-					<table class="table col-12 myTableC mb-0">
+					<table class="table col-12 mb-0">
 						<thead>
 						  <tr class="d-flex">
 							<th class="col-7">Produit</th>
-							<th class="col-3">Prix</th>
+							<th class="col-3 text-right">Prix</th>
 							<th class="col-2">-</th>
 						  </tr>
 						</thead>
 					</table>
 					<div style="overflow-y: scroll; width:100%;height:83%;max-height:77vh;" id='scrol'>
-						<table class="table col-12 myTableC">						
+						<table class="table col-12">						
 							<tbody id="TbTicket"></tbody>
 						</table>
 					</div>
@@ -105,56 +174,52 @@
 				<div class="row p-0 col-12" id="prodB" ></div>
 			</div>
 			<div class="col-1 p-0 pr-3 pt-3">
-				<div class="w-100 p-0 m-0 text-center" style="visibility: hidden;color:blue;cursor:pointer;font-weight: bolder;" id="resethash">reset</div>
+				<div class="w-100 p-0 m-0 text-center" style="visibility: hidden;color:blue;cursor:pointer;font-weight: bolder;" ><span id="resethash">reset</span><button class="m-2" id="plshash">+</button></div>
 				<div class="card col-12 p-0 m-0" id='hash' bol="OFF">
-					<img src="img/hashoff.png" id='img_hash' class="card-img-top">
-					<div style="position:absolute;left:40%;top:20%;font-size:xx-large;font-weight: bolder;visibility: hidden;" id="hash_num">1</div>
+					<img src="img/hashoff.png" id='img_hash' class="card-img-top" style="max-height:80px;">
+					<div style="position:absolute;left:30%;top:20%;font-size:xx-large;font-weight: bolder;visibility: hidden;" id="hash_num">1</div>
 					<div class="card-body p-0 m-0 text-center"># Appel</div>
 				</div>
-				<div class="card col-12 p-0 m-0 mt-2" id='spemp'>
-					<img src="img/sur_place.png" class="card-img-top" id="imgspemp">
-					<div class="card-body p-0 m-0 text-center" id='txtspemp'>Sur Place</div>
+				<div class="card col-12 p-0 m-0"  onclick="DoAtt()">
+					<img src="img/attente.jpg" class="card-img-top" style="max-height:80px;">
+					<div class="card-body p-0 m-0 text-center">Mettre attente</div>
+				</div>
+				<div class="card col-12 p-0 m-0" data-toggle="modal" data-target="#ModalAtt">
+					<img src="img/liste.jpg" class="card-img-top" style="max-height:80px;">
+					<div class="card-body p-0 m-0 text-center">Liste attente</div>
 				</div>
 				<div class="card col-12 p-0 m-0 mt-2" id='addition'>
-					<img src="img/receipt.png" class="card-img-top">
+					<img src="img/receipt.png" class="card-img-top" style="max-height:80px;">
 					<div class="card-body p-0 m-0 text-center">Addition</div>
 				</div>
-				<div class="card col-12 p-0 m-0 mt-2" id='otir'>
-					<img src="img/cashdraw.png" class="card-img-top">
+				<div class="card col-12 p-0 m-0 mt-2" id='otir' >
+					<img src="img/cashdraw.png" class="card-img-top" style="max-height:80px;">
 					<div class="card-body p-0 m-0 text-center">Ouvrir tiroir</div>
 				</div>
 				<div class="card col-12 p-0 m-0 mt-2" id="paie">
-					<img src="img/payment.png" class="card-img-top">
+					<img src="img/payment.png" class="card-img-top" style="max-height:80px;">
 					<div class="card-body p-0 m-0 text-center">Paiement</div>
 				</div>
 			</div>
 		</div>
+		<div id="dumida" style="visibility: hidden;"></div>
 		<div class="modal fade" id="popmsg"></div>
+		<div class="modal fade" id="popmoney"></div>
 		<div class="modal fade" id="ModalPaiement"></div>
 		<div class="modal fade" id="ModalMenu"></div>
-
-		<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel3" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-slideout modal-lg" role="document">
-			  <div class="modal-content">
-				<div class="modal-header">
-				  <h5 class="modal-title" id="exampleModalLabel">Modal sideout large</h5>
-				  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">×</span>
-				  </button>
-				</div>
-				<div class="modal-body">
-				  ...
-				</div>
-				<div class="modal-footer">
-				  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				  <button type="button" class="btn btn-primary">Save changes</button>
-				</div>
-			  </div>
-			</div>
-		  </div>
-
+		<div class="modal fade" id="ModalPoids"></div>
+		<div class="modal fade" id="ModalTables"></div>
+		<div class="modal fade" id="Modalcmd"></div>
+		<div class="modal fade" id="Modallivr"></div>
+		<div class="modal fade" id="ModalClient"></div>
+		<div class="modal fade" id="ModalAtt"></div>
+		
 
 		<script>
+			$("#modetbl").hide()
+			$("#modecmd").hide()
+			$("#modelivr").hide()
+			$("#modebar").hide()
 			/**$(function() {
 			$('#paie').on('click', function(e) {
 				e.preventDefault();

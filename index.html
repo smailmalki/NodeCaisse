@@ -56,6 +56,10 @@
 				<img src="img/products.png" href="products.html" style="width:100px;height:100px;"/>
 				<figcaption style="font-weight:bold;text-align: center;">Produits</figcaption>
 			</figure>
+			<figure style="display: inline-block;margin-left:20px;" onclick="window.location.href='barres.html'">
+				<img src="img/barre.jpg" href="barres.html" style="width:100px;height:80px;margin-bottom: 10px;;"/>
+				<figcaption style="font-weight:bold;text-align: center;">Codes Barre</figcaption>
+			</figure>
 			<figure style="display: inline-block;margin-left:20px;" onclick="window.location.href='stats.html'">
 				<img src="img/sales.png" style="width:100px;height:100px;"/>
 				<figcaption style="font-weight:bold;text-align: center;">Recettes</figcaption>
@@ -71,6 +75,14 @@
 			<figure style="display: inline-block;margin-left:20px;" onclick="window.location.href='tables.html'">
 				<img src="img/table.png" style="width:100px;height:100px;"/>
 				<figcaption style="font-weight:bold;text-align: center;">Tables</figcaption>
+			</figure>
+			<figure style="display: inline-block;margin-left:20px;" onclick="window.location.href='Clients.html'">
+				<img src="img/clients.jpg" style="width:100px;height:100px;"/>
+				<figcaption style="font-weight:bold;text-align: center;">Clients</figcaption>
+			</figure>
+			<figure style="display: inline-block;margin-left:20px;" onclick="window.location.href='serveurs.html'">
+				<img src="img/serveur.png" style="width:90px;height:100px;"/>
+				<figcaption style="font-weight:bold;text-align: center;">Serveurs</figcaption>
 			</figure>
 		</div>
 	</div>
@@ -130,6 +142,8 @@
 		db.run("CREATE TABLE IF NOT EXISTS soc (nom VARCHAR, ad VARCHAR, cp VARCHAR, vl VARCHAR, tl VARCHAR, ic1 VARCHAR, ic2 VARCHAR, ic3 VARCHAR, dev VARCHAR, devise VARCHAR);");
 		db.run("CREATE TABLE IF NOT EXISTS tick_temp (idr NUMBER, dte VARCHAR, idp NUMBER, idc NUMBER, nom VARCHAR, prix NUMERIC,tvas NUMERIC,tvae NUMERIC,imp NUMERIC);");
 		db.run("CREATE TABLE IF NOT EXISTS tick_table (idt NUMBER, idr NUMBER, dte VARCHAR, idp NUMBER, idc NUMBER, nom VARCHAR, prix NUMERIC,tvas NUMERIC,tvae NUMERIC,imp NUMERIC);");
+		db.run("CREATE TABLE IF NOT EXISTS tick_cmd (idcl VARCHAR, idr NUMBER, dte VARCHAR, idp NUMBER, idc NUMBER, nom VARCHAR, prix NUMERIC,tvas NUMERIC,tvae NUMERIC,imp NUMERIC);");
+		db.run("CREATE TABLE IF NOT EXISTS tick_livr (idcl VARCHAR, idr NUMBER, dte VARCHAR, idp NUMBER, idc NUMBER, nom VARCHAR, prix NUMERIC,tvas NUMERIC,tvae NUMERIC,imp NUMERIC);");
 		db.run("CREATE TABLE IF NOT EXISTS tick_att (ida NUMBER, idr NUMBER, dte VARCHAR, idp NUMBER, idc NUMBER, nom VARCHAR, prix NUMERIC,tvas NUMERIC,tvae NUMERIC,imp NUMERIC);");
 		db.run("CREATE TABLE IF NOT EXISTS tick (idt NUMBER, dte VARCHAR, idp NUMBER, idc NUMBER, nom VARCHAR, prix NUMERIC, tva NUMERIC);");
 		db.run("CREATE TABLE IF NOT EXISTS tot (idt NUMBER, idv NUMBER, dte VARCHAR, paimt VARCHAR, tot NUMERIC, tva NUMERIC, service VARCHAR, dtez VARCHAR);");
@@ -137,17 +151,10 @@
 		db.run("DELETE FROM tick_temp;");
 		db.run("CREATE TABLE IF NOT EXISTS appel (ida NUMBER, act VARCHAR);");
 		db.run("CREATE TABLE IF NOT EXISTS tickonoff (id NUMBER PRIMARY KEY, onoff VARCHAR);");
-		
-		db.get("Select * from tickonoff;", function(error, row2) {
-			if (row2 == undefined) {
-				db.run("insert into tickonoff values (1,'on');");
-				$('#txttickonoff').text("ON");
-				$('#imgtickonoff').attr('src','img/ticket_ON.png');
-			} else {
-				$('#txttickonoff').text(row2.onoff.toUpperCase());
-				$('#imgtickonoff').attr('src','img/ticket_'+row2.onoff+'.png');
-			}
-		});
+		db.run("CREATE TABLE IF NOT EXISTS salles (ids NUMERIC, nom NUMERIC, cardinal NUMERIC);");
+		db.run("CREATE TABLE IF NOT EXISTS tables (idt NUMERIC, ids NUMERIC, nom VARCHAR, w NUMERIC, h NUMERIC, t NUMERIC, l NUMERIC, ind NUMERIC);");
+		db.run("CREATE TABLE IF NOT EXISTS clients (tel NUMERIC PRIMARY KEY, nom VARCHAR, adr VARCHAR, ic1 VARCHAR, ic2 VARCHAR, ic3 VARCHAR);");
+		db.run("CREATE TABLE IF NOT EXISTS barres (cb NUMERIC, nom VARCHAR, prix NUMERIC, tva NUMERIC);");
 
 	</script>
   </body>

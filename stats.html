@@ -4,7 +4,7 @@
 		<meta charset="UTF-8">
 		
 		<script>window.$ = window.jQuery = require('jquery');</script>
-		<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+		<!--<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />-->
 		<script src="node_modules/jquery/dist/jquery.js"></script>
 		<link rel='stylesheet' href='node_modules/bootstrap/dist/css/bootstrap.css' />
 		<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -33,9 +33,9 @@
 		<button type="button" class="btn btn-primary glyphicon glyphicon-home" style="float:left;margin-left:20px;margin-top:10px;"  onclick="window.location.href='index.html'">Accueil</button>
 		<button type="button" class="btn btn-danger" style="float:right;margin-right:20px;margin-top:10px;"  onclick="poptitle.innerText='Quitter';poptext.innerText='Voulez-vous fermer le logiciel?';popvalid.onclick=function() {window.close()};$('#popmsg').modal('show');">Fermer</button>
 		
-		<div class="container vertical-center align-self-center" >
-			<div class="col-5" style="overflow-y: scroll; height:83%;max-height:77vh;padding:0px;">
-				<table class="table col-12 myTableC" style="table-layout: fixed;" id="TbZX">
+		<div class="container vertical-center align-self-center col-10 m-0 p-0" >
+			<div class="col-4" style="overflow-y: scroll; height:83%;max-height:77vh;padding:0px;">
+				<table class="table col-12 myTableC m-0" style="table-layout: fixed;" id="TbZX">
 					<thead>
 						<tr>
 						<th style="width: 5%"></th>
@@ -49,16 +49,31 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="col-5" style="overflow-y: scroll; height:83%;max-height:77vh;margin-left:40px;" >
+			<div class="col-5" style="overflow-y: scroll; height:83%;max-height:77vh;margin-left:40px;padding:0px;" >
 				<table class="table col-12 myTableP" id="TbTick">
+					<thead>
+						<tr class="d-flex">
+						<th scope="col" class="col-2">Client</th>
+						<th scope="col" class="col-3">dte</th>
+						<th scope="col" class="col-2">HT</th>
+						<th scope="col" class="col-2">TVA</th>
+						<th scope="col" class="col-2">Service</th>
+						<th scope="col" class="col-1"></th>
+						<!--<th scope="col">col5</th>
+						<th scope="col">col6</th>-->
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
+			<div class="col-3" style="overflow-y: scroll; height:83%;max-height:77vh;margin-left:40px;padding:0px;" >
+				<table class="table col-12 myTableP" id="TbServ">
 				<thead>
-					<tr>
-					<th scope="col">Id Ticket</th>
-					<th scope="col">dte</th>
-					<th scope="col">Total HT</th>
-					<th scope="col">TVA</th>
-					<th scope="col">Service</th>
-					<th scope="col"></th>
+					<tr class="d-flex">
+					<th scope="col" class="col-4">Serveur</th>
+					<th scope="col" class="col-3">Nb Client</th>
+					<th scope="col" class="col-3">Montant</th>
+					<th scope="col" class="col-2"></th>
 					<!--<th scope="col">col5</th>
 					<th scope="col">col6</th>-->
 					</tr>
@@ -74,6 +89,7 @@
 		</div>
 		<div class="modal fade" id="popmsg"></div>
 		<div class="modal fade" id="ModalTicket"></div>
+		<div class="modal fade" id="ModalListTicket"></div>
 		<script src="js/stats.js"></script> 	
 	</body>
 </html>

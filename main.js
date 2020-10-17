@@ -57,6 +57,34 @@ app.on('ready', function() {
       mainWindow.webContents.send('store-data', payload);
     });*/
   }
+
+  const net = require('net');
+  const server = net.createServer((c) => {
+    // 'connection' listener.
+    console.log('client connected');
+    c.on('data', function(chunk) {
+      if (chunk.toString()=="sync") {
+        c.write('demande sync ok\r\n');
+        c.pipe(c);
+      }
+      console.log('Data received from client: '+chunk.toString() );
+    });
+    c.on('end', () => {
+      console.log('client disconnected');
+    });
+    c.on('error', (err) => {
+      console.log(err);
+    });
+    c.write('hello\r\n');
+    c.pipe(c);
+  });
+  server.timeout=0;
+  server.on('error', (err) => {
+    console.log(err);
+  });
+  server.listen(8124, () => {
+    console.log('server bound');
+  });
   
 })
 
