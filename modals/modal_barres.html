@@ -1,0 +1,79 @@
+
+<div class="modal-dialog modal-dialog-centered">
+	<div class="modal-content">
+		<!-- Modal Header -->
+		<div class="modal-header">
+		  <h4 class="modal-title" id="cltitle">Nouveau code barre</h4>
+		</div>
+
+		<!-- Modal body -->
+		<div class="modal-body">
+		      <div class="alert alert-danger" role="alert" id="alertmsgcb">
+				Veuillez saisir un code barre
+			  </div>
+			  <div class="alert alert-danger" role="alert" id="alertmsgnom">
+				Veuillez saisir un Nom
+			  </div>
+			  <div class="alert alert-danger" role="alert" id="alertmsgprix">
+				Veuillez saisir un Prix
+			  </div>
+			  <div class="alert alert-danger" role="alert" id="alertmsgtva">
+				Veuillez saisir une TVA
+			  </div>
+			  <div class="alert alert-warning" role="alert" id="cbexist">
+				Ce code barre existe déjà
+			  </div>
+			  <div class="form-row">
+				<div class="form-group col-sm-12">
+                  <!--<label for="nomP">Nom</label>-->
+                  <input type="text" class="form-control" id="cb" placeholder="Code Barre" >
+                </div>
+				<!--/Blue select-->
+			  </div>
+			  <div class="form-row">
+				<div class="form-group col-sm-12">
+                  <!--<label for="nomP">Nom</label>-->
+                  <input type="text" class="form-control" id="nomcb" placeholder="Nom" >
+                </div>
+				<!--/Blue select-->
+			  </div>
+			  <div class="form-row">
+				<div class="form-group col-sm-6">
+					<!--<label for="nomP">Adresse</label>-->
+					<input type="text" class="form-control" id="prixcb" placeholder="Prix" >
+				</div>
+			  </div>
+			<div class="form-row">
+				<div class="form-group col-sm-6">
+					<!--<label for="nomP">Adresse</label>-->
+					<input type="text" class="form-control" id="tvacb" placeholder="TVA" >
+				</div>
+			</div>
+		</div>
+
+		<!-- Modal footer -->
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-success" onclick="createbarre()" id="clvalid">Valider</button>
+		  <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+		</div>
+	</div>
+</div>
+<script>
+	//$(document).ready(function(){
+		//$( "#ModalCategory" ).load( "modals/modal_category.html" );
+		$("#alertmsgcb").hide();
+		$("#alertmsgnom").hide();
+		$("#alertmsgprix").hide();
+		$("#alertmsgtva").hide();
+		$("#cbexist").hide();
+		$('#nomS').keyboard({ layout: 'azerty' });
+		$('#adr').keyboard({ layout: 'azerty' });
+		$('#ville').keyboard({ layout: 'azerty' });
+		$('#icu').keyboard({ layout: 'azerty' });
+		$('#icd').keyboard({ layout: 'azerty' });
+		$('#ict').keyboard({ layout: 'azerty' });
+		$('#cpl').keyboard({ layout: 'num' });
+		$('#telp').keyboard({ layout: 'azerty' });
+		$('#deviseS').keyboard({ layout: 'azerty' });
+	//});
+</script>

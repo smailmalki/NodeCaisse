@@ -29,7 +29,16 @@
                   <label for="color">Couleur</label>
                   <input type="text" class="form-control" id="color" placeholder="Couleur">
                </div>
-            </div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-sm-6">
+					<label for="punit">Unité</label>
+					<select class="form-control punit" id="punit" >
+						<option value="piece">Pièce</option>
+						<option value="kg">Kg</option>
+					</select>
+				 </div>
+			 </div>
 		</div>
 		<div class="card">
 			<!--<h5 class="card-header">-->
@@ -77,6 +86,7 @@
 		$('#nomP').keyboard({ layout: 'azerty' });
 		$('#tvas2').keyboard({ layout: 'num' });
 		$('#tvae2').keyboard({ layout: 'num' });
+		$('#price').keyboard({ layout: 'num' });
 		var db = new sqlite3.Database('db/caisse.db');
 		var sqlite = require('sqlite-async');
 		sqlite.open('db/caisse.db').then(db2=>{
@@ -100,6 +110,7 @@
 			//$('#prd2').html('');
 			$('.prd option').remove();
 			//$('.prd').selectpicker('refresh');
+			//var path=window.location.href.replace("caisse.html","").replace("file:///","");
 			sqlite.open('db/caisse.db').then(db2=>{
 				db2.each("SELECT * FROM prd where idc="+cat2.value+inmenu2+" and idp<>"+$('#TbProduct tr.active').find('td:first').html(), function(err, row) {
 					$('#prd2').append('<option value="'+row.idp+'">'+row.nom+'</option>');

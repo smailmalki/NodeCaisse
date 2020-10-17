@@ -1,0 +1,17 @@
+<div class="modal-dialog modal-dialog-slideout" role="document">
+	<div class="modal-content">
+		<div class="modal-body w-100">
+			<div id="attcards" class="col-12"></div>
+		</div>
+	</div>
+</div>
+<script>
+$("#attcards > div").remove();
+var sqlite3 = require('sqlite3').verbose();
+var db = new sqlite3.Database('db/caisse.db');
+db.each("select ida, group_concat('<div>'||nb||'x'||nom||' : '||prix||'</div>') nom, sum(prix) tot from (select ida, nom, count(*) nb, sum(prix) prix from tick_att group by 1,2) group by 1;", (error,row)=> {
+	if (row.tot !== null) {
+		$("#attcards").append('<div class="card col-12 mt-1 p-3" style="cursor:pointer;background-color: lightblue;" onclick="fillTickA('+row.ida+','+row.tot+')" id="att'+row.ida+'"><span style="font-weight: bold;">'+row.ida+'</span> <span style="font-weight:normal;">'+row.nom.replace(/,/g,"")+'</span><span style="font-weight: bold;">Total : '+row.tot.toFixed(2)+devise.innerText+'</span></div>')
+	}
+})
+</script>

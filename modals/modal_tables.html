@@ -1,0 +1,24 @@
+<div class="modal-dialog modal-dialog-slideout modal-lg" style="width:100%" role="document">
+	<div class="modal-content">
+	  <div class="modal-body w-100 p-0">
+		<ul class="nav nav-tabs" style="margin-top:10px;"></ul>
+		<div class="tab-content">
+
+		</div>
+	  </div>
+	</div>
+  </div>
+  <script>
+	  var sqlite3 = require('sqlite3').verbose();
+var sqlite = require('sqlite-async');
+var db = new sqlite3.Database('db/caisse.db');
+	  var i = 1;
+db.each("Select * from salles order by cardinal;", function(error, row) {
+	$('.nav').append("<li class='nav-item'><a href='#sc"+row.ids+"' data-toggle='tab' class='nav-link "+(i==1?'active':'')+"' id='s"+row.ids+"' sid='"+row.ids+"'>"+row.nom+"</a></li>");
+	$('.tab-content').append("<div class='tab-pane "+(i==1?'active':'')+"' id='sc"+row.ids+"'></div>");
+	i++;
+})
+db.each("Select tables.*, tick.* from tables left join (select idt idt2, count(*) nb, sum(prix) prix from tick_table where nom not like '----%' group by idt) tick on tables.idt=tick.idt2;", function(error, row2) {
+	$('#sc'+row2.ids).append("<div class='drag' style='display: flex;flex-flow: column;width:"+row2.w+"px;height:"+row2.h+"px;top:"+row2.t+"px;left:"+row2.l+"px;"+(row2.idt2==null?"":"background-color:salmon;")+"' onclick='document.body.style.backgroundColor=\"salmon\";$(\"#modetbl\").show();tbname.innerText=\""+row2.nom+"\";$(\"#ModalTables\").modal(\"hide\");$(\"#modetbl\").attr(\"idt\",\""+row2.idt+"\"); fillTickT("+row2.idt+","+row2.prix+")'><h3 style='width:100%;background:grey;text-align:center;' id='"+row2.idt+"'>"+row2.nom+"</h3><h5 style='display: flex;flex: 1 1 auto;justify-content: center;align-items: center;'><span style='text-align:center;' id='"+row2.idt+"t' >"+(row2.idt2==null?"":row2.nb+" produits<br>"+row2.prix.toFixed(2)+dev)+"</span></h5></div>");
+})
+  </script>

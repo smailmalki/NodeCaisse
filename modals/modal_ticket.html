@@ -29,13 +29,15 @@
 		<div class="modal-footer">
 		  <!--<button type="button" class="btn btn-primary mr-auto"  id="prdvalid" onclick="createproduct()">inclus menu</button>-->
 		
-		  <button type="button" class="btn btn-primary" id="prdvalid" onclick="createproduct()">Duplicata</button>
+		  <button type="button" class="btn btn-primary" id="prdvalid" onclick="printTicket()">Duplicata</button>
 		</div>
 	</div>
 </div>
 <script>
+	
 	//$(document).ready(function(){
 		//$( "#ModalCategory" ).load( "modals/modal_category.html" );
+		/*
 		$("#alertmsgP").hide();
 		$('#nomP').keyboard({ layout: 'azerty' });
 		$('#tvas2').keyboard({ layout: 'num' });
@@ -67,10 +69,10 @@
 				db2.each("SELECT * FROM prd where idc="+cat2.value+inmenu2+" and idp<>"+$('#TbProduct tr.active').find('td:first').html(), function(err, row) {
 					$('#prd2').append('<option value="'+row.idp+'">'+row.nom+'</option>');
 					$('.prd').selectpicker('refresh');
-				})/*.then(() => {
+				}).then(() => {
 					
-				})*/
+				})
 			})
-		})		
+		})		*/
 //});
 </script>
