@@ -1,3 +1,4 @@
+var path=window.location.href.replace("serveurs.html","").replace("file:///","");
 $('.myTableP').on('click', '.clickable-row', function(event) {
 	  $(this).addClass('active').siblings().removeClass('active');
 	});
@@ -9,23 +10,43 @@ $('.myTableC').on('click', '.clickable-row', function(event) {
 			$('#TbProduct').append('<tr class="clickable-row d-flex"><td class="col-2">'+row.idp+'</td><td class="col-5">'+row.nom+'</td><td class="col-2">'+row.prix+'</td><td class="col-3 pl-4"><a href="#" data-toggle="modal" data-target="#ModalProduct" onclick="fillmenu('+row.idp+');prdtitle.innerText=\'Modifier produit\';cat.value='+row.idc+';nomP.value=\''+row.nom+'\';price.value='+row.prix+';punit.value=\''+row.unit+'\';prdvalid.onclick=function() { updateproduct('+row.idp+') }"><img src="img/pen.svg" width=20></img></a><a href="#" data-toggle="modal" data-target="#popmsg" onclick="poptitle.innerText=\'Supprimer produit\';poptext.innerText=\'Voulez-vous supprimer le produit : '+row.nom+' ?\';popvalid.onclick=function() { supprprd('+row.idc+','+row.idp+') }"><img src="img/trash.png" width=20></img></a></td></tr>');		
 		});
 	  });
-var path=window.location.href.replace("products.html","").replace("file:///","");
 var sqlite3 = require('sqlite3').verbose();
 var sqlite = require('sqlite-async');
 var db = new sqlite3.Database(path+'db/caisse.db');
 db.each("SELECT * FROM cat", function(err, row) {
 	$('#TbCategory').append('<tr class="clickable-row d-flex" id="cat'+row.idc+'"><td class="col-2">'+row.idc+'</td><td class="col-6">'+row.nom+'</td><td class="col-4 pl-4"><a href="#" data-toggle="modal" data-target="#ModalCategory" onclick="cattitle.innerText=\'Modifier catégorie\';printer.value='+row.imp+';nomC.value=\''+row.nom+'\';tvas.value='+row.tvas+';tvae.value='+row.tvae+';catvalid.onclick=function() { updatecat('+row.idc+') }"><img src="img/pen.svg" width=20></img></a><a href="#" data-toggle="modal" data-target="#popmsg" onclick="poptitle.innerText=\'Supprimer catégorie\';poptext.innerText=\'Voulez-vous supprimer la catégorie : '+row.nom+' ?\';popvalid.onclick=function() { supprcat('+row.idc+') }"><img src="img/trash.png" width=20></img></a></td></tr>');
 });
-$( "#ModalCategory" ).load( "modals/modal_category.html" );
-$( "#ModalProduct" ).load( "modals/modal_product.html" );
+$( "#ModalServeurs" ).load( "modals/modal_serveurs.html" );
+//$( "#ModalProduct" ).load( "modals/modal_product.html" );
 $( "#popmsg" ).load( "modals/popmsg.html" );
-$('#ModalProduct').on('hidden.bs.modal', function () {
+$('#ModalBarres').on('hidden.bs.modal', function () {
+	cltitle.innerText="Modifier Code Barre";
+	clvalid.onclick=function() { createcb() }
     //$( "#ModalProduct" ).load( "modals/modal_product.html" );
 });
-function supprcat(idc) {
-	var db = new sqlite3.Database(path+'db/caisse.db');
-	db.run("delete from cat where idc="+idc+";");
-	location.reload();
+function createserveur() {
+	if (nomsv.value=="") {
+		$("#alertmsgnom").show();
+		$("#svexist").hide();
+	} else {
+		$("#alertmsgnom").hide();
+		$("#svexist").hide();
+		var db = new sqlite3.Database(path+'db/caisse.db');
+		db.run("CREATE TABLE IF NOT EXISTS serveur (sv NUMBER, nom VARCHAR);");
+		db.get("Select * from serveur where nom='"+nomsv.value+"';", function(error, row2) {
+			if (row2 !== undefined) {
+				$("#svexist").show();
+			} else {
+				sqlite.open(path+'db/caisse.db').then(db2=>{
+					db2.run("INSERT INTO serveur select case when max(sv) is null then 1000 else max(sv+10) end sv, '"+nomsv.value+"' nom from serveur;").then( () => {
+						//document.getElementById('cat'+cat.value).click();
+						location.reload()
+					});
+					
+				});
+			}
+		});
+	}
 }
 function supprprd(idc,idp) {
 	sqlite.open(path+'db/caisse.db').then(db=>{
@@ -97,46 +118,71 @@ function updateproduct(idp) {
 		});
 	}
 }
-function createproduct() {
-	if (nomP.value=="") {
-		alertmsgP.innerText="Veuillez saisir un nom";
-		$("#alertmsgP").show();
-	} else if (price.value=="") {
-		alertmsgP.innerText="Veuillez saisir un prix";
-		$("#alertmsgP").show();
+function supprbarre(cb) {
+	sqlite.open(path+'db/caisse.db').then(db2=>{
+		db2.run("delete from barres where cb="+cb)
+		.then(()=>{
+			//db2.run("INSERT INTO barres VALUES ("+cb.value+", '"+nomcb.value.replace(/\'/g,"''")+"',"+prixcb.value.replace(",",".")+","+tvacb.value.replace(",",".")+");").then( () => {
+				//document.getElementById('cat'+cat.value).click();
+				location.reload()
+			//});
+		})
+	});
+}
+function updatebarre() {
+	if (cb.value=="") {
+		$("#alertmsgcb").show();
+	} else if (nomcb.value=="") {
+		$("#alertmsgnom").show();
+	} else if (prixcb.value=="") {
+		$("#alertmsgprix").show();
+	} else if (tvacb.value=="") {
+		$("#alertmsgtva").show();
 	} else {
-		$("#alertmsgP").hide();
+		$("#alertmsgcb").hide();
+		$("#alertmsgnom").hide();
+		$("#alertmsgprix").hide();
+		$("#alertmsgtva").hide();
 		var db = new sqlite3.Database(path+'db/caisse.db');
-		db.run("CREATE TABLE IF NOT EXISTS prd (idp NUMBER, idc NUMBER, nom VARCHAR, prix NUMERIC, color VARCHAR);");
-		db.get("Select * from prd where nom='"+nomP.value+"' and idc="+cat.value+";", function(error, row2) {
-			if (row2 !== undefined) {
-				alertmsgP.innerText="Ce produit existe deja";
-				$("#alertmsgP").show();
-			} else {
-				var mx=1000;
-				db.get("select max(idp+10) mx from prd", (err, row) => {
-					if (row !== undefined) { mx=row.mx;}
-					sqlite.open(path+'db/caisse.db').then(db2=>{
-						var menu=0;
-						db2.run("delete from menu where idp="+mx)
-						.then(() => {
-							var array = $('.prdinmenu').map(function(){
-								return '('+idp+','+$(this).attr('idprd')+')'
-							}).get();
-							if (array.toString()!="") {
-								menu=1;
-								db2.run("insert into menu values "+array.toString()+";");
-							}
-						})
-						.then(() => {
-							db2.run("INSERT INTO prd VALUES ("+mx+", "+cat.value+",'"+nomP.value.replace(/\'/g,"''")+"',"+price.value.replace(",",".")+",'',"+menu+",'"+punit.value+"');").then( () => {
-								document.getElementById('cat'+cat.value).click();
-								$("#ModalProduct").modal("hide");
-							});
-						})
-					});
+		db.run("CREATE TABLE IF NOT EXISTS barres (cb NUMBER, nom VARCHAR, prix NUMERIC, tva NUMERIC);");
+		sqlite.open(path+'db/caisse.db').then(db2=>{
+			db2.run("delete from barres where cb="+cb.value)
+			.then(()=>{
+				db2.run("INSERT INTO barres VALUES ("+cb.value+", '"+nomcb.value.replace(/\'/g,"''")+"',"+prixcb.value.replace(",",".")+","+tvacb.value.replace(",",".")+");").then( () => {
+					//document.getElementById('cat'+cat.value).click();
+					location.reload()
 				});
-				
+			})
+		});
+	}
+}
+function createbarre() {
+	if (cb.value=="") {
+		$("#alertmsgcb").show();
+	} else if (nomcb.value=="") {
+		$("#alertmsgnom").show();
+	} else if (prixcb.value=="") {
+		$("#alertmsgprix").show();
+	} else if (tvacb.value=="") {
+		$("#alertmsgtva").show();
+	} else {
+		$("#alertmsgcb").hide();
+		$("#alertmsgnom").hide();
+		$("#alertmsgprix").hide();
+		$("#alertmsgtva").hide();
+		var db = new sqlite3.Database(path+'db/caisse.db');
+		db.run("CREATE TABLE IF NOT EXISTS barres (cb NUMBER, nom VARCHAR, prix NUMERIC, tva NUMERIC);");
+		db.get("Select * from barres where cb="+cb.value+";", function(error, row2) {
+			if (row2 !== undefined) {
+				$("#cbexist").show();
+			} else {
+				sqlite.open(path+'db/caisse.db').then(db2=>{
+					db2.run("INSERT INTO barres VALUES ("+cb.value+", '"+nomcb.value.replace(/\'/g,"''")+"',"+prixcb.value.replace(",",".")+","+tvacb.value.replace(",",".")+");").then( () => {
+						//document.getElementById('cat'+cat.value).click();
+						location.reload()
+					});
+					
+				});
 			}
 		});
 	}
