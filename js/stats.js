@@ -13,7 +13,7 @@ $('.myTableP').on('click', '.clickable-row', function(event) {
 var sqlite3 = require('sqlite3').verbose();
 var sqlite = require('sqlite-async');
 var db = new sqlite3.Database(path+'db/caisse.db');
-$('.myTableC').on('click', '.clickable-row', function(event) {
+$('.myTableCXZ').on('click', '.clickable-row', function(event) {
 		$(this).addClass('active').siblings().removeClass('active');
 		$('#TbTick > tbody').html("");
 		$('#TbServ > tbody').html("");
@@ -22,17 +22,15 @@ $('.myTableC').on('click', '.clickable-row', function(event) {
 				$('#TbTick > tbody').append('<tr class="clickable-row d-flex"><td class="col-2">'+row.idt+'</td><td class="col-3">'+row.dte+'</td><td class="col-2">'+row.tot+'</td><td class="col-2">'+row.tva+'</td><td class="col-2">'+row.service+'</td><td class="col-1"><img src="img/view.png" style="width:20px;cursor:pointer;" data-toggle="modal" data-target="#ModalTicket" onclick="fillTick(\''+row.idt+'\')"></td></tr>');
 			});
 			db.each("SELECT idv, nom, count(*) nb, sum(round(tot,2)) mont FROM tot, serveur where idv=sv and dtez='' group by 1,2", function(err, row) {
-				$('#TbServ > tbody').append('<tr class="clickable-row d-flex"><td class="col-4">'+row.nom+'</td><td class="col-3">'+row.nb+'</td><td class="col-3">'+row.mont.toFixed(2)+'</td><td class="col-2"><img src="img/view.png" style="width:20px;cursor:pointer;" data-toggle="modal" data-target="#ModalListTicket" onclick="fillListTick(\''+row.idv+'\')"></td></tr>');
+				$('#TbServ > tbody').append('<tr class="clickable-row d-flex"><td class="col-4">'+row.nom+'</td><td class="col-3">'+row.nb+'</td><td class="col-3">'+row.mont.toFixed(2)+'</td><td class="col-2"><img src="img/view.png" style="width:20px;cursor:pointer;" data-toggle="modal" data-target="#ModalListTicket" onclick="fillListTick(\''+row.idv+'\',\''+row.nom+'\',\'\')"></td></tr>');
 			});
 		} else {
-			//alert("SELECT * FROM tot where dtez='"+$(this).find('td:last').attr("z")+"'");
 			db.each("SELECT * FROM tot where dtez='"+$(this).find('td:last').attr("z")+"'", function(err, row) {
 				$('#TbTick > tbody').append('<tr class="clickable-row d-flex"><td class="col-2">'+row.idt+'</td><td class="col-3">'+row.dte+'</td><td class="col-2">'+row.tot+'</td><td class="col-2">'+row.tva+'</td><td class="col-2">'+row.service+'</td><td class="col-1"><img src="img/view.png" style="width:20px;cursor:pointer;" data-toggle="modal" data-target="#ModalTicket" onclick="fillTick(\''+row.idt+'\')"></td></tr>');
 			});
 			db.each("SELECT idv, nom, count(*) nb, sum(round(tot,2)) mont FROM tot, serveur where idv=sv and dtez='"+$(this).find('td:last').attr("z")+"' group by 1,2", function(err, row) {
-				$('#TbServ > tbody').append('<tr class="clickable-row d-flex"><td class="col-4">'+row.nom+'</td><td class="col-3">'+row.nb+'</td><td class="col-3">'+row.mont.toFixed(2)+'</td><td class="col-2"><img src="img/view.png" style="width:20px;cursor:pointer;" data-toggle="modal" data-target="#ModalListTicket" onclick="fillListTick(\''+row.idv+'\')"></td></tr>');
+				$('#TbServ > tbody').append('<tr class="clickable-row d-flex"><td class="col-4">'+row.nom+'</td><td class="col-3">'+row.nb+'</td><td class="col-3">'+row.mont.toFixed(2)+'</td><td class="col-2"><img src="img/view.png" style="width:20px;cursor:pointer;" data-toggle="modal" data-target="#ModalListTicket" onclick="fillListTick(\''+row.idv+'\',\''+row.nom+'\',\''+$(this).find('td:last').attr("z")+'\')"></td></tr>');
 			});
-			//alert($(this).find('td:last').html());
 		}
 
 		
@@ -45,10 +43,10 @@ $('.myTableC').on('click', '.clickable-row', function(event) {
 
 sqlite.open(path+'db/caisse.db').then(db=>{
 	db.each("SELECT 'Z' zx, count(*) nb, round(sum(tot),2) tot, dtez FROM tot where dtez<>'' group by dtez order by dtez asc;", function(err, row) {
-		$('#TbZX').append('<tr class="clickable-row" id="'+row.dtez+'"><td>'+row.zx+'</td><td class="text-center">'+row.nb+'</td><td class="text-center">'+row.tot+'</td><td>'+row.dtez+'</td><td class="pl-0" z="'+row.dtez+'" style="cursor:pointer;" data-toggle="modal" data-target="#popmsg" onclick="poptitle.innerText=\'Imprimer Z\';poptext.innerText=\'Imprimer Z du '+row.dtez+'?\';popvalid.onclick=function() { Imprimer(\''+row.dtez+'\') }"><img src="img/receipt_printer.png"> </td></tr>');
+		$('#TbZX').append('<tr class="clickable-row" id="'+row.dtez+'"><td>'+row.zx+'</td><td class="text-center">'+row.nb+'</td><td class="text-center">'+row.tot+'</td><td class="z">'+row.dtez+'</td><td class="pl-0" z="'+row.dtez+'" style="cursor:pointer;" data-toggle="modal" data-target="#popmsg" onclick="poptitle.innerText=\'Imprimer Z\';poptext.innerText=\'Imprimer Z du '+row.dtez+'?\';popvalid.onclick=function() { Imprimer(\''+row.dtez+'\') }"><img src="img/receipt_printer.png"></td></tr>');
 	}).then( () => {
 		db.each("SELECT 'X' zx, count(*) nb, round(sum(tot),2) tot, dtez FROM tot where dtez='' group by dtez;", function(err, row) {
-			$('#TbZX').append('<tr class="clickable-row" id="'+row.dtez+'"><td>'+row.zx+'</td><td class="text-center">'+row.nb+'</td><td class="text-center">'+row.tot+'</td><td class="text-center"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#popmsg" onclick="poptitle.innerText=\'Cloture\';poptext.innerText=\'Confirmer la cloture\';popvalid.onclick=function() { Cloturer() }">Cloturer</button></td><td class="pl-0" style="cursor:pointer;" data-toggle="modal" data-target="#popmsg" onclick="poptitle.innerText=\'Imprimer X \';poptext.innerText=\'Imprimer X ?\';popvalid.onclick=function() { Imprimer(\'\') }"><img src="img/receipt_printer.png" ></td></tr>');
+			$('#TbZX').append('<tr class="clickable-row" id="'+row.dtez+'"><td>'+row.zx+'</td><td class="text-center">'+row.nb+'</td><td class="text-center">'+row.tot+'</td><td class="text-center"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#popmsg" onclick="poptitle.innerText=\'Cloture\';poptext.innerText=\'Confirmer la cloture\';popvalid.onclick=function() { Cloturer() }">Cloturer</button></td><td class="pl-0" style="cursor:pointer;" data-toggle="modal" data-target="#popmsg" onclick="poptitle.innerText=\'Imprimer X \';poptext.innerText=\'Imprimer X ?\';popvalid.onclick=function() { Imprimer(\'\') }"><img src="img/receipt_printer.png"></td></tr>');
 		});
 	})
 })
@@ -71,11 +69,13 @@ db.get("select * from soc", function(error, row2) {
 	comp3=row2.ic2;
 });
 
-function fillListTick(sv) {
-	$('#TbListTick > tbody').html("");
-	db.each("SELECT idt, dte, round(tot,2) tot, tva, service FROM tot where idv="+sv+" group by 1,2", function(err, row) {
-		//alert(row.idt)
-		$('#TbListTick > tbody').append('<tr class="clickable-row d-flex"><td class="col-2">'+row.idt+'</td><td class="col-3">'+row.dte+'</td><td class="col-2">'+row.tot+'</td><td class="col-2">'+row.tva+'</td><td class="col-2">'+row.service+'</td><td class="col-1"><img src="img/view.png" style="width:20px;cursor:pointer;" data-toggle="modal" data-target="#ModalTicket" onclick="fillTick(\''+row.idt+'\')"></td></tr>');
+function fillListTick(sv,nomsv,dtez) {
+	//alert(sv)
+	console.log("SELECT idt, dte, round(tot,2) tot, tva, service FROM tot where idv="+sv+" and dtez='"+dtez+"' group by 1,2");
+	ticklisttitle.innerText=nomsv;
+	$('#TbListTicket').html("");
+	db.each("SELECT idt, dte, round(tot,2) tot, tva, service FROM tot where idv="+sv+" and dtez='"+dtez+"' group by 1,2", function(err, row) {
+		$('#TbListTicket').append('<tr class="clickable-row d-flex"><td class="col-2">'+row.idt+'</td><td class="col-3">'+row.dte+'</td><td class="col-2">'+row.tot+'</td><td class="col-2">'+row.tva+'</td><td class="col-2">'+row.service+'</td><td class="col-1"><img src="img/view.png" style="width:20px;cursor:pointer;" data-toggle="modal" data-target="#ModalTicket" onclick="fillTick(\''+row.idt+'\')"></td></tr>');
 	});
 }
 function fillTick(idt) {
