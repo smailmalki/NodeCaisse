@@ -1,3 +1,15 @@
+To Install:
+
+git clone 
+
+npm install
+
+npm install --global --production windows-build-tools
+
+npm install electron-rebuild
+
+
+
 "# NodeCaisse" 
 
 https://github.com/electron/electron/blob/master/docs/tutorial/using-native-node-modules.md
