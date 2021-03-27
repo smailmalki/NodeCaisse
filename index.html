@@ -6,6 +6,7 @@
     <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
 	<script>window.$ = window.jQuery = require('jquery');</script>
     <!-- <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" /> -->
+	<meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data:">
 	<script src="node_modules/jquery/dist/jquery.js"></script>
 	<link rel='stylesheet' href='node_modules/bootstrap/dist/css/bootstrap.css' />
 	<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
