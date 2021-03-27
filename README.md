@@ -7,6 +7,7 @@ cd caissenode
 npm install
 
 npm install --global --production windows-build-tools  (<== this command need to be ran on administrator command window)
+or install it manually https://visualstudio.microsoft.com/fr/downloads/
 
 ![](img/cmd.gif)
 
