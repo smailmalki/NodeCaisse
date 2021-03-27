@@ -37,7 +37,8 @@ $('#telp').keyboard({ layout: 'num' });
 $('#nom').keyboard({ layout: 'azerty' });
 $("#commandccards > div").remove();
 var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database('db/caisse.db');
+var path=window.location.href.replace("caisse.html","").replace("file:///","");
+var db = new sqlite3.Database(path+'db/caisse.db');
 db.each("select tel, clients.nom, adr,ic1,ic2,ic3,GROUP_CONCAT(tick_cmd.nom, ', ') prods, sum(prix) tot from tick_cmd, clients where idcl=tel group by tel, clients.nom, adr,ic1,ic2,ic3;", (error,row)=> {
 	$("#commandccards").append('<div class="card col-12 mt-1 p-3" style="cursor:pointer;background-color: lightblue;" onclick="fillclient(\''+row.tel+'\', \''+row.nom+'\',\'cmd\')" id="cmd'+row.tel.replace(" ","_")+'"><span style="font-weight: bold;">Tel. : <span style="font-weight:normal;">'+row.tel+'</span></span><span style="font-weight: bold;">Nom : <span style="font-weight:normal;">'+row.nom+'</span></span><span style="font-weight: bold;">Adresse : <span style="font-weight:normal;">'+row.adr+'</span></span><span style="font-weight: bold;">Compl : <span style="font-weight:normal;"><br>'+row.ic1+'<br>'+row.ic2+'<br>'+row.ic3+'</span></span><span style="font-weight: bold;">Commande : <span style="font-weight:normal;">'+row.prods+'</span></span><span style="font-weight: bold;">Total : '+row.tot.toFixed(2)+devise.innerText+'</span></div>')
 })

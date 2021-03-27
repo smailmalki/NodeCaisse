@@ -25,11 +25,14 @@ $('.myTableCXZ').on('click', '.clickable-row', function(event) {
 				$('#TbServ > tbody').append('<tr class="clickable-row d-flex"><td class="col-4">'+row.nom+'</td><td class="col-3">'+row.nb+'</td><td class="col-3">'+row.mont.toFixed(2)+'</td><td class="col-2"><img src="img/view.png" style="width:20px;cursor:pointer;" data-toggle="modal" data-target="#ModalListTicket" onclick="fillListTick(\''+row.idv+'\',\''+row.nom+'\',\'\')"></td></tr>');
 			});
 		} else {
+			//alert($(this).attr("id"));
 			db.each("SELECT * FROM tot where dtez='"+$(this).find('td:last').attr("z")+"'", function(err, row) {
 				$('#TbTick > tbody').append('<tr class="clickable-row d-flex"><td class="col-2">'+row.idt+'</td><td class="col-3">'+row.dte+'</td><td class="col-2">'+row.tot+'</td><td class="col-2">'+row.tva+'</td><td class="col-2">'+row.service+'</td><td class="col-1"><img src="img/view.png" style="width:20px;cursor:pointer;" data-toggle="modal" data-target="#ModalTicket" onclick="fillTick(\''+row.idt+'\')"></td></tr>');
 			});
-			db.each("SELECT idv, nom, count(*) nb, sum(round(tot,2)) mont FROM tot, serveur where idv=sv and dtez='"+$(this).find('td:last').attr("z")+"' group by 1,2", function(err, row) {
-				$('#TbServ > tbody').append('<tr class="clickable-row d-flex"><td class="col-4">'+row.nom+'</td><td class="col-3">'+row.nb+'</td><td class="col-3">'+row.mont.toFixed(2)+'</td><td class="col-2"><img src="img/view.png" style="width:20px;cursor:pointer;" data-toggle="modal" data-target="#ModalListTicket" onclick="fillListTick(\''+row.idv+'\',\''+row.nom+'\',\''+$(this).find('td:last').attr("z")+'\')"></td></tr>');
+			var dt = $(this).find('td:last').attr("z");
+			
+			db.each("SELECT idv, nom, count(*) nb, sum(round(tot,2)) mont FROM tot, serveur where idv=sv and dtez='"+dt+"' group by 1,2", function(err, row) {
+				$('#TbServ > tbody').append('<tr class="clickable-row d-flex"><td class="col-4">'+row.nom+'</td><td class="col-3">'+row.nb+'</td><td class="col-3">'+row.mont.toFixed(2)+'</td><td class="col-2"><img src="img/view.png" style="width:20px;cursor:pointer;" data-toggle="modal" data-target="#ModalListTicket" onclick="fillListTick(\''+row.idv+'\',\''+row.nom+'\',\''+dt+'\')"></td></tr>');
 			});
 		}
 

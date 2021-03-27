@@ -106,6 +106,7 @@ db.get("select * from soc", function(error, row2) {
 	logo=row2.logo;
 });
 
+
 db.each("SELECT * FROM cat", function(err, row) {
 	$('#catB').append('<div class="card col-12 p-2 m-1" style="min-height:75px;cursor:pointer;" onclick="$(\'#catB > div\').css(\'background-color\',\'\');$(this).css(\'background-color\',\'lightgreen\');fillP('+row.idc+','+row.tvas+','+row.tvae+','+row.imp+')"><div class="card-body p-0 m-0 text-center align-middle" style="cursor:pointer;">'+row.nom+'</div></div>');
 	//$('#TbCategory').append('<tr class="clickable-row" id="cat'+row.idc+'"><td>'+row.idc+'</td><td>'+row.nom+'</td><td><a href="#"><img src="img/pen.svg" width=20></img></a><a href="#" data-toggle="modal" data-target="#popmsg" onclick="poptitle.innerText=\'Supprimer catégorie\';poptext.innerText=\'Voulez-vous supprimer la catégorie : '+row.nom+' ?\';popvalid.onclick=function() { supprcat('+row.idc+') }"><img src="img/trash.png" width=20></img></a></td></tr>');
@@ -454,7 +455,7 @@ $('#otir').on('click', function(e) {
 	ipcRenderer.send('store-data', "Test ok");
 	*/
 	sqlite.open(path+'db/caisse.db').then(db=>{
-		db.each("SELECT * FROM printers where idp=1;").then( (error, row) => {
+		db.each("SELECT * FROM printers where idp=1;",function(err, row) {
 			getDevice(row.conn,row.params);	
 			if (printer) {
 				device.open(function(){
