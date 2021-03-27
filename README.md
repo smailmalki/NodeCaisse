@@ -6,7 +6,7 @@ cd caissenode
 
 npm install
 
-npm install --global --production windows-build-tools
+npm install --global --production windows-build-tools  (<== this command need to be ran on administrator command window)
 
 npm install electron-rebuild
 
