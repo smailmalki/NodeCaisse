@@ -1,12 +1,16 @@
 To Install:
 
-git clone 
+git clone https://github.com/smailmalki/NodeCaisse.git
 
 npm install
 
 npm install --global --production windows-build-tools
 
 npm install electron-rebuild
+
+.\node_modules\\.bin\electron-rebuild.cmd
+
+npm start
 
 
 
