@@ -8,6 +8,8 @@ npm install
 
 npm install --global --production windows-build-tools  (<== this command need to be ran on administrator command window)
 
+![](img/cmd.gif)
+
 npm install electron-rebuild
 
 .\node_modules\\.bin\electron-rebuild.cmd
