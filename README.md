@@ -11,9 +11,11 @@ or install it manually https://visualstudio.microsoft.com/fr/downloads/
 
 ![](img/cmd.gif)
 
+npm set npm_config_arch x64
+
 npm install electron-rebuild
 
-.\node_modules\\.bin\electron-rebuild.cmd
+.\node_modules\\.bin\electron-rebuild.cmd --arch=ia32
 
 npm start
 
