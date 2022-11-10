@@ -13,7 +13,7 @@
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
     "bootstrap-select": "^1.13.16",
-    "electron": "^8.0.0",
+    "electron": "^18.3.7",
     "electron-window-manager": "^1.0.6",
     "escpos": "^3.0.0-alpha.2",
     "escpos-network": "^3.0.0-alpha.2",
